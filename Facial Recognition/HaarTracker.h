@@ -14,9 +14,9 @@ class HaarTracker : public Tracker
 {
 	private:
 	CvMemStorage* storage;
-	CvHaarClassifierCascade* cascade;
-	CvHaarClassifierCascade* nested_cascade;
-	int use_nested_cascade;
+	//CvHaarClassifierCascade* cascade;
+	CvHaarClassifierCascade* nestedCascade;
+	char* _cascadeName;
 	Utils* util;
 
 public:

@@ -1,28 +1,28 @@
 #include "HaarTracker.h"
 #include "Utils.h"
-#include <string.h>
+
+HaarTracker::HaarTracker(char *cascadeName): _cascadeName(cascadeName)
+{
+	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
+	util = new Utils(20, 200);
+	//FIX: Does not retain value out of scope.
+	//cascade = (CvHaarClassifierCascade*)cvLoad( cascadeName, 0, 0, 0 );
+}
 
 HaarTracker::HaarTracker(void)
 {
-	char* casc = new char[100];
-	memset(casc, 0, 100);
-	strcat(casc, HAARCASCADE_DIR);
-	strcat(casc, HAARCASCADE_FRONTALFACE);
-	HaarTracker::HaarTracker(casc);
+	_cascadeName = new char[100];
+	memset(_cascadeName, 0, 100);
+	strcat(_cascadeName, HAARCASCADE_DIR);
+	strcat(_cascadeName, HAARCASCADE_FRONTALFACE);
+	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
+	util = new Utils(20, 200);
 	//delete casc;
 }
 
 HaarTracker::~HaarTracker(void)
 {
 	cvDestroyWindow(HAAR_CLASSIFIER_WINDOW);
-}
-
-HaarTracker::HaarTracker(char *cascadeName)
-{
-	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
-	util = new Utils(20, 200);
-	//fixme
-	cascade = (CvHaarClassifierCascade*)cvLoad( cascadeName, 0, 0, 0 );
 }
 
 CvRect*
@@ -38,6 +38,7 @@ HaarTracker::detect(IplImage *frame)
 	storage = cvCreateMemStorage(0);
     // Clear the memory storage which was used before
 	cvClearMemStorage( storage );
+	CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad( _cascadeName, 0, 0, 0 );
 
 	// Check whether the cascade has loaded successfully. Else report and error and quit
     if( !cascade )

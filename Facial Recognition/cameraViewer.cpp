@@ -25,7 +25,6 @@
 int main(int argc, char* argv[])
 {
 	CamCapture *cam = new CamCapture();
-	//cascade_name = lpCmdLine;
 	HaarTracker* haar = new HaarTracker();
 	SkinTracker* skin = new SkinTracker();
 
