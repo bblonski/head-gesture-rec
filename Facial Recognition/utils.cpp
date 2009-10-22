@@ -8,7 +8,7 @@ Utils::Utils(int xCoord, int yCoord)
 
 Utils::Utils(void)
 {
-	Utils(20, 200);
+	Utils::Utils(20, 200);
 }
 
 Utils::~Utils(void)

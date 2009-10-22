@@ -14,7 +14,7 @@
  * Contains modified code from the OpenCV samples.
  *
  * @author Brian Blonski
- * @version 1.0b
+ * @version 1.$Rev$
  **/
 
 #include "resource.h"
@@ -22,7 +22,7 @@
 //C:\Program Files (x86)\OpenCV\data\haarcascades\haarcascade_frontalface_alt.xml
 
 /* Entry Point for Program */
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int main(int argc, char* argv[])
 {
 	CamCapture *cam = new CamCapture();
 	//cascade_name = lpCmdLine;

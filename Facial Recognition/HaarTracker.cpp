@@ -1,17 +1,28 @@
 #include "HaarTracker.h"
 #include "Utils.h"
+#include <string.h>
 
 HaarTracker::HaarTracker(void)
 {
-	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
-	cascade_name = HAARCASCADE_FRONTALFACE;
-	util = new Utils(20, 200);
-	cascade = (CvHaarClassifierCascade*)cvLoad( cascade_name, 0, 0, 0 );
+	char* casc = new char[100];
+	memset(casc, 0, 100);
+	strcat(casc, HAARCASCADE_DIR);
+	strcat(casc, HAARCASCADE_FRONTALFACE);
+	HaarTracker::HaarTracker(casc);
+	//delete casc;
 }
 
 HaarTracker::~HaarTracker(void)
 {
 	cvDestroyWindow(HAAR_CLASSIFIER_WINDOW);
+}
+
+HaarTracker::HaarTracker(char *cascadeName)
+{
+	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
+	util = new Utils(20, 200);
+	//fixme
+	cascade = (CvHaarClassifierCascade*)cvLoad( cascadeName, 0, 0, 0 );
 }
 
 CvRect*

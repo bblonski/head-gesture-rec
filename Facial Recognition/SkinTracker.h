@@ -1,6 +1,8 @@
 #ifndef _SKIN_TRACKER_H
 #define _SKIN_TRACKER_H
 
+#define SKIN_FILTER_WINDOW				"Skin Filter"
+
 #include "Tracker.h"
 #include "Utils.h"
 

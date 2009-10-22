@@ -5,7 +5,6 @@
 #include <exception>
 #include "HaarTracker.h"
 #include "SkinTracker.h"
-#include "Utils.h"
 #include "CamCapture.h"
 using namespace std; 
 

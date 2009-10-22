@@ -1,9 +1,7 @@
 #ifndef _TRACKER_H
 #define _TRACKER_H
 
-#define MAIN_WINDOW						"Main"
-#define HAAR_CLASSIFIER_WINDOW			"Haar Classifier"
-#define SKIN_FILTER_WINDOW				"Skin Filter"		
+#define MAIN_WINDOW	"Main"		
 
 #include "OpenCVIncludes.h"
 
