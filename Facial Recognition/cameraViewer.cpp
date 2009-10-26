@@ -25,7 +25,13 @@
 int main(int argc, char* argv[])
 {
 	CamCapture *cam = new CamCapture();
-	HaarTracker* haar = new HaarTracker();
+	char* _cascadeName = new char[100];
+	memset(_cascadeName, 0, 100);
+	strcat_s(_cascadeName, 100, HAARCASCADE_DIR);
+	strcat_s(_cascadeName, 100, HAARCASCADE_FRONTALFACE);
+	CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad( _cascadeName, 0, 0, 0 );
+	delete _cascadeName;
+	HaarTracker* haar = new HaarTracker(cascade);
 	SkinTracker* skin = new SkinTracker();
 
 	while(true)

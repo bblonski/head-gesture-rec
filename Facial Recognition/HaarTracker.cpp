@@ -1,23 +1,12 @@
 #include "HaarTracker.h"
 #include "Utils.h"
 
-HaarTracker::HaarTracker(char *cascadeName): _cascadeName(cascadeName)
+HaarTracker::HaarTracker(CvHaarClassifierCascade *pCascade)
 {
 	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
 	util = new Utils(20, 200);
-	//FIX: Does not retain value out of scope.
-	//cascade = (CvHaarClassifierCascade*)cvLoad( cascadeName, 0, 0, 0 );
-}
-
-HaarTracker::HaarTracker(void)
-{
-	_cascadeName = new char[100];
-	memset(_cascadeName, 0, 100);
-	strcat(_cascadeName, HAARCASCADE_DIR);
-	strcat(_cascadeName, HAARCASCADE_FRONTALFACE);
-	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
-	util = new Utils(20, 200);
-	//delete casc;
+	//Load the classifier
+	cascade = pCascade;
 }
 
 HaarTracker::~HaarTracker(void)
@@ -38,7 +27,6 @@ HaarTracker::detect(IplImage *frame)
 	storage = cvCreateMemStorage(0);
     // Clear the memory storage which was used before
 	cvClearMemStorage( storage );
-	CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad( _cascadeName, 0, 0, 0 );
 
 	// Check whether the cascade has loaded successfully. Else report and error and quit
     if( !cascade )
@@ -59,6 +47,7 @@ HaarTracker::detect(IplImage *frame)
 
         // Loop the number of faces found.
         //for( i = 0; i < (faces ? faces->total : 0); i++ )
+		// only loop on the first face
 		for( i = 0; i < (faces && faces->total ? 1 : 0); i++ )
         {
            // Create a new rectangle for drawing the face

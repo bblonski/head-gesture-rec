@@ -14,14 +14,13 @@ class HaarTracker : public Tracker
 {
 	private:
 	CvMemStorage* storage;
-	//CvHaarClassifierCascade* cascade;
+	CvHaarClassifierCascade* cascade;
 	CvHaarClassifierCascade* nestedCascade;
 	char* _cascadeName;
 	Utils* util;
 
 public:
-	HaarTracker(void);
-	HaarTracker(char* param);
+	HaarTracker(CvHaarClassifierCascade* param);
 	~HaarTracker(void);
 	CvRect* detect(IplImage *image);
 	void select(CvRect* r){};
