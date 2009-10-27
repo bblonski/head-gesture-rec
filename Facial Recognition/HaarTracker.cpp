@@ -43,7 +43,7 @@ HaarTracker::detect(IplImage *frame)
         // Detect the objects and store them in the sequence
         CvSeq* faces = cvHaarDetectObjects( frame, cascade, storage,
                                             1.1, 2, CV_HAAR_DO_CANNY_PRUNING,
-                                            cvSize(40, 40) );
+                                            cvSize(80, 80) );
 
         // Loop the number of faces found.
         //for( i = 0; i < (faces ? faces->total : 0); i++ )

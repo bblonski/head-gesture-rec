@@ -24,6 +24,7 @@ private:
 
 	//functions
 	void updateHueImage();
+	void ShrinkTrackingBox(int ammount);
 	void init(IplImage* frame);
 
 public:

@@ -4,9 +4,7 @@
 
 SkinTracker::SkinTracker(void)
 {
-	vmin = 65;
-	vmax = 256;
-	smin = 55;
+	vmin = 65, vmax = 256, smin = 0;
 	cvNamedWindow(SKIN_FILTER_WINDOW, 1 );
 	cvCreateTrackbar( "Vmin", SKIN_FILTER_WINDOW, &vmin, 256, 0 );
 	cvCreateTrackbar( "Vmax", SKIN_FILTER_WINDOW, &vmax, 256, 0 );
@@ -35,6 +33,9 @@ SkinTracker::~SkinTracker(void)
 	cvDestroyWindow(SKIN_FILTER_WINDOW);
 }
 
+/**
+ * mouseCallback sets the onMouse event as a mouse callback function.
+ */
 void
 SkinTracker::mouseCallback(int event, int x, int y, int flags, void *param)
 {
@@ -171,6 +172,9 @@ SkinTracker::track()
 	/* calculates the backprojection from the hue */
     cvCalcBackProject( &hue, backproject, hist );
     cvAnd( backproject, mask, backproject, 0 );
+
+	ShrinkTrackingBox(20);
+
 	/* Finds object center, size, and orientation */
     cvCamShift( backproject, trackFrame,
                 cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),
@@ -204,6 +208,16 @@ SkinTracker::startTracking(IplImage * pImg)
     cvResetImageROI( mask );
 
     trackFrame = selectFrame;
+
     trackObject = 1;
 }
 
+void 
+SkinTracker::ShrinkTrackingBox(int amount)
+{
+	// shrink tracking box so it doesn't grow
+	trackFrame.height -= amount;
+	trackFrame.width -= amount;
+	trackFrame.x += amount/2;
+	trackFrame.y += amount/2;
+}

@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 	memset(_cascadeName, 0, 100);
 	strcat_s(_cascadeName, 100, HAARCASCADE_DIR);
 	strcat_s(_cascadeName, 100, HAARCASCADE_FRONTALFACE);
-	CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad( _cascadeName, 0, 0, 0 );
+	CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad( _cascadeName);
 	delete _cascadeName;
 	HaarTracker* haar = new HaarTracker(cascade);
 	SkinTracker* skin = new SkinTracker();
