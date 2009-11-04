@@ -63,6 +63,26 @@ HaarTracker::detect(IplImage *frame)
             // Draw the rectangle in the input image
             cvRectangle( frame, pt1, pt2, CV_RGB(255,0,0), 3, 8, 0 );
         }
+		nestedCascade = (CvHaarClassifierCascade*)cvLoad("C:\\Program Files (x86)\\OpenCV\\data\\haarcascades\\haarcascade_eye_tree_eyeglasses.xml");
+		if(faces->total > 0 && nestedCascade)
+		{
+			CvMat small_img_roi;
+            CvPoint center;
+			CvScalar color = {{0,255,0}};
+            int radius, j;
+            cvGetSubRect( frame, &small_img_roi, *r );
+            CvSeq* nested_objects = cvHaarDetectObjects( &small_img_roi, nestedCascade, storage,
+                                        1.1, 2);
+            for( j = 0; j < (nested_objects ? nested_objects->total : 0); j++ )
+            {
+                CvRect* nr = (CvRect*)cvGetSeqElem( nested_objects, j );
+                center.x = cvRound((r->x + nr->x + nr->width*0.5));
+                center.y = cvRound((r->y + nr->y + nr->height*0.5));
+                radius = cvRound((nr->width + nr->height)*0.25);
+                cvCircle( frame, center, radius, CV_RGB(0,0,255), 3, 8, 0 );
+            }
+        }
+
     }
 	
 	cvShowImage(HAAR_CLASSIFIER_WINDOW, frame);
