@@ -3,7 +3,7 @@
 
 HaarTracker::HaarTracker(CvHaarClassifierCascade *pCascade)
 {
-	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, 1 );
+	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, CV_WINDOW_AUTOSIZE);
 	util = new Utils(20, 200);
 	//Load the classifier
 	cascade = pCascade;
@@ -42,7 +42,7 @@ HaarTracker::detect(IplImage *frame)
         // There can be more than one face in an image. So create a growable sequence of faces.
         // Detect the objects and store them in the sequence
         CvSeq* faces = cvHaarDetectObjects( frame, cascade, storage,
-                                            1.1, 2, CV_HAAR_DO_CANNY_PRUNING,
+                                            2, 2, CV_HAAR_DO_CANNY_PRUNING,
                                             cvSize(80, 80) );
 
         // Loop the number of faces found.
@@ -64,24 +64,24 @@ HaarTracker::detect(IplImage *frame)
             cvRectangle( frame, pt1, pt2, CV_RGB(255,0,0), 3, 8, 0 );
         }
 		nestedCascade = (CvHaarClassifierCascade*)cvLoad("C:\\Program Files (x86)\\OpenCV\\data\\haarcascades\\haarcascade_eye_tree_eyeglasses.xml");
-		if(faces->total > 0 && nestedCascade)
+		if (faces->total > 0 && nestedCascade)
 		{
 			CvMat small_img_roi;
-            CvPoint center;
-			CvScalar color = {{0,255,0}};
-            int radius, j;
-            cvGetSubRect( frame, &small_img_roi, *r );
-            CvSeq* nested_objects = cvHaarDetectObjects( &small_img_roi, nestedCascade, storage,
-                                        1.1, 2);
-            for( j = 0; j < (nested_objects ? nested_objects->total : 0); j++ )
-            {
-                CvRect* nr = (CvRect*)cvGetSeqElem( nested_objects, j );
-                center.x = cvRound((r->x + nr->x + nr->width*0.5));
-                center.y = cvRound((r->y + nr->y + nr->height*0.5));
-                radius = cvRound((nr->width + nr->height)*0.25);
-                cvCircle( frame, center, radius, CV_RGB(0,0,255), 3, 8, 0 );
-            }
-        }
+			CvPoint center;
+			CvScalar color = {{0, 255, 0}};
+			int radius;
+			int j;
+			cvGetSubRect(frame, &small_img_roi, *r);
+			CvSeq *nested_objects = cvHaarDetectObjects(&small_img_roi, nestedCascade, storage, 2, 2);
+			for (j = 0; j < (nested_objects ? nested_objects->total : 0); j++)
+			{
+				CvRect *nr = (CvRect*)cvGetSeqElem(nested_objects, j);
+				center.x = cvRound((r->x + nr->x + nr->width * 0.5));
+				center.y = cvRound((r->y + nr->y + nr->height * 0.5));
+				radius = cvRound((nr->width + nr->height) * 0.25);
+				cvCircle(frame, center, radius, CV_RGB(0, 0, 255), 3, 8, 0);
+			}
+		}
 
     }
 	
