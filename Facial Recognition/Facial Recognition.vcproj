@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LKTracker.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SkinTracker.cpp"
 				>
 			</File>
@@ -220,6 +224,10 @@
 			</File>
 			<File
 				RelativePath=".\HaarTracker.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LKTracker.h"
 				>
 			</File>
 			<File
