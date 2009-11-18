@@ -20,8 +20,10 @@
 /* Entry Point for Program */
 int main(int argc, char* argv[])
 {
+	/* Create new camera capture */
 	CamCapture *cam = new CamCapture();
 
+	/* Determine Haar cascade location */
 	char* _cascadeName = new char[100];
 	memset(_cascadeName, 0, 100);
 	strcat_s(_cascadeName, 100, HAARCASCADE_DIR);
@@ -29,23 +31,31 @@ int main(int argc, char* argv[])
 	CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad( _cascadeName);
 	delete _cascadeName;
 
+	/* Init new trackers */
 	HaarTracker* haar = new HaarTracker(cascade);
 	SkinTracker* skin = new SkinTracker();
+	LKTracker* lk = new LKTracker();
 
+	/* Tracking loop */
 	while(true)
 	{
 		try
 		{
+			/* Get frame frome camera */
 			IplImage *tmp = cam->getFrame();
 			if(tmp == NULL)
 				break;
+
 			cvShowImage(MAIN_WINDOW, tmp);
+			lk->detect(tmp);
+			/*
 			CvRect* r = haar->detect(tmp);
 			if(r)
 				skin->select(r);
 			skin->detect(tmp);
+			*/
 			cvReleaseImage(&tmp);
-			free(r);
+			//free(r);
 		}catch (...)
 		{
 			cout << "Error";

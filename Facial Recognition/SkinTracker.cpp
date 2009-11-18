@@ -173,7 +173,7 @@ SkinTracker::track()
     cvCalcBackProject( &hue, backproject, hist );
     cvAnd( backproject, mask, backproject, 0 );
 
-	ShrinkTrackingBox(20);
+	shrinkTrackingBox(20);
 
 	/* Finds object center, size, and orientation */
     cvCamShift( backproject, trackFrame,
@@ -213,7 +213,7 @@ SkinTracker::startTracking(IplImage * pImg)
 }
 
 void 
-SkinTracker::ShrinkTrackingBox(int amount)
+SkinTracker::shrinkTrackingBox(int amount)
 {
 	// shrink tracking box so it doesn't grow
 	trackFrame.height -= amount;

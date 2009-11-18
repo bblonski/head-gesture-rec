@@ -20,15 +20,15 @@ private:
 	bool hasPoint, initialized;
 	//Functions
 	void init(IplImage* image);
-		void AutoFindPoints();
-	void SetCount();
+	void autoFindPoints();
+	void setCount();
+	void onMouse(int event, int x, int y);
 
 public:
-	void onMouse(int event, int x, int y);
 	CvRect* detect(IplImage *image);
-
-
+	void setPoint(int x, int y);
 	static void mouseCallback(int event, int x, int y, int flags, void* param);
+	void select(CvRect *r);
 	LKTracker(void);
 	~LKTracker(void);
 };

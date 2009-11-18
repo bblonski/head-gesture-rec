@@ -3,11 +3,14 @@
 LKTracker::LKTracker(void)
 {
 	cvNamedWindow(LK_TRACKER_WINDOW, CV_WINDOW_AUTOSIZE);
-	cvSetMouseCallback("LK_TRACKER_WINDOW", &LKTracker::mouseCallback, this); 
+	cvSetMouseCallback(LK_TRACKER_WINDOW, &LKTracker::mouseCallback, this); 
 	points[0] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(points[0][0]));
     points[1] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(points[0][0]));
     status = (char*)cvAlloc(MAX_COUNT);
     flags = 0;
+	image = grey = prevGrey = pyramid = prevPyramid = swapImage = 0;
+	hasPoint = false;
+	count = 0;
 }
 
 LKTracker::~LKTracker(void)
@@ -38,16 +41,30 @@ LKTracker::onMouse(int event, int x, int y)
 
     if( event == CV_EVENT_LBUTTONDOWN )
     {
-        point = cvPoint(x,y);
-        hasPoint = true;
+        setPoint(x,y);
     }
 }
 
-void 
-LKTracker::SetCount()
+void
+LKTracker::select(CvRect *r)
 {
-	int i;
-	int k;
+	int x, y;
+	y = r->y - r->height/2;
+	x = r->x + r->width/2;
+	setPoint(x, y);
+}
+
+void
+LKTracker::setPoint(int x, int y)
+{
+	point = cvPoint(x,y);
+	hasPoint = true;
+}
+
+void 
+LKTracker::setCount()
+{
+	int i, k;
 	cvCalcOpticalFlowPyrLK( prevGrey, grey, prevPyramid, pyramid,
 		points[0], points[1], count, cvSize(WIN_SIZE,WIN_SIZE), 3, status, 0,
 		cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03), flags );
@@ -76,7 +93,7 @@ LKTracker::SetCount()
 }
 
 void 
-LKTracker::AutoFindPoints()
+LKTracker::autoFindPoints()
 {
 	/* automatic initialization */
 	IplImage* eig = cvCreateImage( cvGetSize(grey), 32, 1 );
@@ -100,31 +117,33 @@ CvRect*
 LKTracker::detect(IplImage *frame)
 {
 	if(!image)
+	{
 		init(frame);
+	}
 	cvCopy(frame, image, 0);
 	cvCvtColor(image, grey, CV_BGR2GRAY);
 	if(!initialized)
 	{
-		AutoFindPoints();
+		autoFindPoints();
 	}else if(count > 0)
 	{
-		SetCount();
+		setCount();
 	}
 
 	if( hasPoint && count < MAX_COUNT )
 	{
-	points[1][count++] = cvPointTo32f(point);
-	cvFindCornerSubPix( grey, points[1] + count - 1, 1,
-		cvSize(WIN_SIZE,WIN_SIZE), cvSize(-1,-1),
-		cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03));
-	hasPoint = false;
+		points[1][count++] = cvPointTo32f(point);
+		cvFindCornerSubPix( grey, points[1] + count - 1, 1,
+			cvSize(WIN_SIZE,WIN_SIZE), cvSize(-1,-1),
+			cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03));
+		hasPoint = false;
 	}
 
 	CV_SWAP( prevGrey, grey, swapImage );
 	CV_SWAP( prevPyramid, pyramid, swapImage );
 	CV_SWAP( points[0], points[1], swapPoints );
 	initialized = true;
-	cvShowImage( "LK_TRACKER_WINDOW", image );
+	cvShowImage( LK_TRACKER_WINDOW, image );
 	
 	return new CvRect();
 }

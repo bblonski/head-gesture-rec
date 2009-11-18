@@ -6,6 +6,7 @@
 #include "HaarTracker.h"
 #include "SkinTracker.h"
 #include "CamCapture.h"
+#include "LKTracker.h"
 using namespace std; 
 
 //{{NO_DEPENDENCIES}}
