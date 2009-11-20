@@ -6,8 +6,7 @@
 #include "Tracker.h"
 #include "Utils.h"
 
-class SkinTracker :
-	public Tracker
+class SkinTracker
 {
 private:
 	IplImage *hsv, *hue, *mask, *backproject, *histImage,
@@ -24,15 +23,15 @@ private:
 
 	//functions
 	void updateHueImage();
-	void shrinkTrackingBox(int ammount);
-	void init(IplImage* frame);
+	void shrinkTrackingBox(const int ammount);
+	void init(const IplImage* frame);
 
 public:
 	SkinTracker(void);
 	~SkinTracker(void);
 	static void mouseCallback(int event, int x, int y, int flags, void* param);
 	void onMouse(int event, int x, int y);
-	CvRect* detect(IplImage *pImg);
+	CvRect* detect(const IplImage *pImg);
 	void startTracking(IplImage *pImg);
 	void track();
 	void select(CvRect* r);

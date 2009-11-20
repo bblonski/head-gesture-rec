@@ -12,7 +12,7 @@ LKTracker::LKTracker(void)
 	image = grey = prevGrey = pyramid = prevPyramid = swapImage = 0;
 	hasNewPoint = false;
 	numPoints = 0;
-	initialized = false;
+	initialized = true;
 }
 
 // Deconstructor
@@ -54,7 +54,7 @@ void
 LKTracker::select(CvRect *r)
 {
 	int x, y;
-	y = r->y - r->height/2;
+	y = r->y + r->height/2;
 	x = r->x + r->width/2;
 	setPoint(x, y);
 }

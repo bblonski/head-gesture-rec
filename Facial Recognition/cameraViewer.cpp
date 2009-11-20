@@ -17,51 +17,50 @@
 
 //C:\Program Files (x86)\OpenCV\data\haarcascades\haarcascade_frontalface_alt.xml
 
-/* Entry Point for Program */
+// Entry Point for Program
 int main(int argc, char* argv[])
 {
-	/* Create new camera capture */
+	// Create new camera capture
 	CamCapture *cam = new CamCapture();
 
-	/* Determine Haar cascade location */
-	char* _cascadeName = new char[100];
-	memset(_cascadeName, 0, 100);
-	strcat_s(_cascadeName, 100, HAARCASCADE_DIR);
-	strcat_s(_cascadeName, 100, HAARCASCADE_FRONTALFACE);
-	CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad( _cascadeName);
-	delete _cascadeName;
-
-	/* Init new trackers */
-	HaarTracker* haar = new HaarTracker(cascade);
+	// Init new trackers
+	HaarTracker* haar = new HaarTracker();
 	SkinTracker* skin = new SkinTracker();
 	LKTracker* lk = new LKTracker();
-
-	/* Tracking loop */
+	
+	CvRect* r = NULL;
+	// Tracking loop
 	while(true)
 	{
 		try
 		{
-			/* Get frame frome camera */
+			// Get frame frome camera
 			IplImage *tmp = cam->getFrame();
 			if(tmp == NULL)
 				break;
 
-			cvShowImage(MAIN_WINDOW, tmp);
+			cvShowImage(CamCapture::MAIN_WINDOW, tmp);
 			lk->detect(tmp);
-			/*
-			CvRect* r = haar->detect(tmp);
+			if(!r)
+				r = haar->detect(tmp);
+			else
+				haar->detect(tmp);
+
 			if(r)
+			{
 				skin->select(r);
+				lk->select(r);
+			}
+
 			skin->detect(tmp);
-			*/
+			
 			cvReleaseImage(&tmp);
-			//free(r);
+			free(r);
 		}catch (...)
 		{
 			cout << "Error";
 		}
 	}
-	cvReleaseHaarClassifierCascade(&cascade);
 	delete haar;
 	delete skin;
 	delete cam;

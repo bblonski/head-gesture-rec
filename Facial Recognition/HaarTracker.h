@@ -1,28 +1,31 @@
 #ifndef _HAAR_TRACKER_H
 #define _HAAR_TRACKER_H
 
-#define HAAR_CLASSIFIER_WINDOW	"Haar Classifier"
-#define HAARCASCADE_DIR			"C:\\Program Files (x86)\\OpenCV\\data\\haarcascades\\"
-#define HAARCASCADE_FRONTALFACE "haarcascade_frontalface_alt.xml"
-#define HAARCASCADE_EYE			"haarcascade_eye.xml"
-#define HAARCASCADE_PROFILE		"haarcascade_profileface.xml"
-
 #include "Tracker.h"
 #include "Utils.h"
 
-class HaarTracker : public Tracker
+class HaarTracker
 {
-	private:
+private:
+	static const char* const HAAR_CLASSIFIER_WINDOW;
+	static const char* const HAARCASCADE_DIR;
+	static const char* const HAARCASCADE_FRONTALFACE;
+	static const char* const HAARCASCADE_EYE;
+	static const char* const HAARCASCADE_PROFILE;
+
+	IplImage *image;
 	CvMemStorage* storage;
 	CvHaarClassifierCascade* cascade;
 	CvHaarClassifierCascade* nestedCascade;
-	char* _cascadeName;
 	Utils* util;
 
+	void init();
+
 public:
-	HaarTracker(CvHaarClassifierCascade* param);
+	HaarTracker(CvHaarClassifierCascade* param, CvHaarClassifierCascade* pNestedCascade);
+	HaarTracker();
 	~HaarTracker(void);
-	CvRect* detect(IplImage *image);
+	CvRect* detect(const IplImage *frame);
 	void select(CvRect* r){};
 };
 #endif

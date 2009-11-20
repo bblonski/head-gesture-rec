@@ -1,6 +1,8 @@
 #include "CamCapture.h"
 #include "Resource.h"
 
+const char* const CamCapture::MAIN_WINDOW = "Main";
+
 CamCapture::CamCapture(void)
 {
 	util = new Utils();
@@ -43,7 +45,8 @@ IplImage* CamCapture::getFrame()
 
 	//wait for esc key
 	c = cvWaitKey(10);
-	if( (char) c == 27 ){
+	if( (char) c == 27 )
+	{
 		cvReleaseImage(&image);
 		return NULL;
 	}

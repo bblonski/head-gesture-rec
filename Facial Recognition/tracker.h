@@ -1,7 +1,5 @@
 #ifndef _TRACKER_H
-#define _TRACKER_H
-
-#define MAIN_WINDOW	"Main"		
+#define _TRACKER_H	
 
 #include "OpenCVIncludes.h"
 

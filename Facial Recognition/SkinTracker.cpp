@@ -1,6 +1,5 @@
 #include "SkinTracker.h"
 #include "OpenCVIncludes.h"
-#include <iostream>
 
 SkinTracker::SkinTracker(void)
 {
@@ -92,7 +91,7 @@ SkinTracker::onMouse(int event, int x, int y)
 }
 
 void
-SkinTracker::init(IplImage *frame)
+SkinTracker::init(const IplImage *frame)
 {
 	float hranges_arr[] = {0,180};
     float *hranges = hranges_arr;
@@ -110,7 +109,7 @@ SkinTracker::init(IplImage *frame)
  * based off OpenCV sample code 
  */
 CvRect* 
-SkinTracker::detect(IplImage* frame)
+SkinTracker::detect(const IplImage* frame)
 {
     if( !image )
     {
@@ -213,7 +212,7 @@ SkinTracker::startTracking(IplImage * pImg)
 }
 
 void 
-SkinTracker::shrinkTrackingBox(int amount)
+SkinTracker::shrinkTrackingBox(const int amount)
 {
 	// shrink tracking box so it doesn't grow
 	trackFrame.height -= amount;

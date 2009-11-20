@@ -10,6 +10,7 @@ private:
 	CvCapture* capture;
 	Utils* util;
 public:
+	static const char* const MAIN_WINDOW;
 	CamCapture(void);
 	~CamCapture(void);
 	IplImage* getFrame();
