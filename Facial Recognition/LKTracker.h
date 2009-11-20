@@ -5,8 +5,7 @@
 
 #include "tracker.h"
 
-class LKTracker :
-	public Tracker
+class LKTracker
 {
 private:
 	//Constants
@@ -15,17 +14,17 @@ private:
 	IplImage *image, *grey, *prevGrey, *pyramid, *prevPyramid, *swapImage;
 	CvPoint2D32f* points[2], *swapPoints;
 	char* status;
-	int count, flags;
+	int numPoints, flags;
 	CvPoint point;
-	bool hasPoint, initialized;
+	bool hasNewPoint, initialized;
 	//Functions
-	void init(IplImage* image);
+	void init(const IplImage* image);
 	void autoFindPoints();
 	void setCount();
 	void onMouse(int event, int x, int y);
 
 public:
-	CvRect* detect(IplImage *image);
+	CvRect* detect(const IplImage *image);
 	void setPoint(int x, int y);
 	static void mouseCallback(int event, int x, int y, int flags, void* param);
 	void select(CvRect *r);

@@ -1,5 +1,6 @@
 #include "LKTracker.h"
 
+// Constructor
 LKTracker::LKTracker(void)
 {
 	cvNamedWindow(LK_TRACKER_WINDOW, CV_WINDOW_AUTOSIZE);
@@ -9,17 +10,20 @@ LKTracker::LKTracker(void)
     status = (char*)cvAlloc(MAX_COUNT);
     flags = 0;
 	image = grey = prevGrey = pyramid = prevPyramid = swapImage = 0;
-	hasPoint = false;
-	count = 0;
+	hasNewPoint = false;
+	numPoints = 0;
+	initialized = false;
 }
 
+// Deconstructor
 LKTracker::~LKTracker(void)
 {
 	cvDestroyWindow(LK_TRACKER_WINDOW);
 }
 
+// Initializes the image
 void
-LKTracker::init(IplImage* frame)
+LKTracker::init(const IplImage* frame)
 {
 	image = cvCreateImage( cvGetSize(frame), 8, 3 );
     image->origin = frame->origin;
@@ -29,7 +33,7 @@ LKTracker::init(IplImage* frame)
     prevPyramid = cvCreateImage( cvGetSize(frame), 8, 1 );
 }
 
-
+// Mouse callback for setting tracking points
 void
 LKTracker::onMouse(int event, int x, int y)
 {
@@ -45,6 +49,7 @@ LKTracker::onMouse(int event, int x, int y)
     }
 }
 
+// Selects a tracking point at the center of the given rectangle
 void
 LKTracker::select(CvRect *r)
 {
@@ -54,44 +59,64 @@ LKTracker::select(CvRect *r)
 	setPoint(x, y);
 }
 
+// Sets a tracking point at the given x-y coordinates
 void
 LKTracker::setPoint(int x, int y)
 {
 	point = cvPoint(x,y);
-	hasPoint = true;
+	hasNewPoint = true;
 }
 
+// Determines the current number of valid points
 void 
 LKTracker::setCount()
 {
-	int i, k;
-	cvCalcOpticalFlowPyrLK( prevGrey, grey, prevPyramid, pyramid,
-		points[0], points[1], count, cvSize(WIN_SIZE,WIN_SIZE), 3, status, 0,
-		cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03), flags );
-	flags |= CV_LKFLOW_PYR_A_READY;
-	for( i = k = 0; i < count; i++ )
+	int index, newNumPoints;
+	// Calculates the optical flow between the grey images
+	cvCalcOpticalFlowPyrLK( 
+		prevGrey,		// Previous image
+		grey,			// Current image
+		prevPyramid,	// Pyramid of previous image
+		pyramid,		// Pyramid of current image
+		points[0],		// Array of points indicating the features that need to be found
+		points[1],		// Array of calculated NEW points of the features
+		numPoints,		// Number of features to track
+		cvSize(WIN_SIZE,WIN_SIZE), // Size of search window
+		3,				// Level - 4 pyramids
+		status,			// Array containing 1 is the cooresponding element is found, else 0
+		0,				// Array of doubles containing difference between original and moved points
+		cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03), 
+		flags );
+	flags |= CV_LKFLOW_PYR_A_READY;	// Pyramid for first frame has already been calculated
+	for( index = newNumPoints = 0; index < numPoints; index++ )
 	{
-		if( hasPoint )
+		// If have new points, add new point
+		if( hasNewPoint )
 		{
-			double dx = point.x - points[1][i].x;
-			double dy = point.y - points[1][i].y;
+			// Calculate distance from other points
+			double dx = point.x - points[1][index].x;
+			double dy = point.y - points[1][index].y;
 
+			// Skip if point is too close to another point
 			if( dx*dx + dy*dy <= 25 )
 			{
-				hasPoint = 0;
+				hasNewPoint = false;
 				continue;
 			}
 		}
 
-		if( !status[i] )
+		// Remove missing points
+		if( !status[index] )
 			continue;
+		points[1][newNumPoints++] = points[1][index];
 
-		points[1][k++] = points[1][i];
-		cvCircle( image, cvPointFrom32f(points[1][i]), 3, CV_RGB(0,255,0), -1, 8,0);
+		// Draw each point
+		cvCircle( image, cvPointFrom32f(points[1][index]), 3, CV_RGB(0,255,0), -1, 8,0);
 	}
-	count = k;
+	numPoints = newNumPoints;
 }
 
+// Automatically find good points to track
 void 
 LKTracker::autoFindPoints()
 {
@@ -101,42 +126,64 @@ LKTracker::autoFindPoints()
 	double quality = 0.01;
 	double min_distance = 10;
 
-	count = MAX_COUNT;
-	cvGoodFeaturesToTrack( grey, eig, temp, points[1], &count,
-		quality, min_distance, 0, 3, 0, 0.04 );
-	cvFindCornerSubPix( grey, points[1], count,
+	numPoints = MAX_COUNT;
+	cvGoodFeaturesToTrack( 
+		grey,			// Input image
+		eig,			// Temp image
+		temp,			// Another temp image
+		points[1],		// Output of detected corners
+		&numPoints,		// Output of number of detected corners
+		quality,		// Min accepted quality
+		min_distance,	// Min distance between accepted corners
+		NULL,			// Mask - Region of interest
+						// consider using getSubRect to refine search area
+		3,				// Size of averaging block
+		0,				// Use harris if nonzero
+		0.04 );			// Parameter only if harris!=0
+	cvFindCornerSubPix( grey, points[1], numPoints,
 		cvSize(WIN_SIZE,WIN_SIZE), cvSize(-1,-1),
 		cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03));
 	cvReleaseImage( &eig );
 	cvReleaseImage( &temp );
 
-	hasPoint = false;
+	hasNewPoint = false;
 }
 
+// Detect features on a new frame
 CvRect*
-LKTracker::detect(IplImage *frame)
+LKTracker::detect(const IplImage *frame)
 {
 	if(!image)
 	{
+		// init image 
 		init(frame);
 	}
+	// copy frame to image
 	cvCopy(frame, image, 0);
+	// Convert image to greyscale
 	cvCvtColor(image, grey, CV_BGR2GRAY);
 	if(!initialized)
 	{
 		autoFindPoints();
-	}else if(count > 0)
+	}else if(numPoints > 0) // If has points to track
 	{
 		setCount();
 	}
 
-	if( hasPoint && count < MAX_COUNT )
+	// If has new point to add and does not have max points
+	if( hasNewPoint && numPoints < MAX_COUNT )
 	{
-		points[1][count++] = cvPointTo32f(point);
-		cvFindCornerSubPix( grey, points[1] + count - 1, 1,
-			cvSize(WIN_SIZE,WIN_SIZE), cvSize(-1,-1),
+		// Add new point
+		points[1][numPoints++] = cvPointTo32f(point);
+		// Refine corner location
+		cvFindCornerSubPix( 
+			grey,		// Image input
+			points[1] + numPoints - 1,	// Initial corner input and refined corner output 
+			1,			// Number of corners
+			cvSize(WIN_SIZE,WIN_SIZE), // Half the size length of the search window
+			cvSize(-1,-1), // Do not use zero_zone
 			cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03));
-		hasPoint = false;
+		hasNewPoint = false;
 	}
 
 	CV_SWAP( prevGrey, grey, swapImage );
@@ -148,9 +195,7 @@ LKTracker::detect(IplImage *frame)
 	return new CvRect();
 }
 
-/**
- * mouseCallback sets the onMouse event as a mouse callback function.
- */
+// mouseCallback sets the onMouse event as a mouse callback function.
 void
 LKTracker::mouseCallback(int event, int x, int y, int flags, void *param)
 {
