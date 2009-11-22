@@ -1,16 +1,12 @@
+// $Id$
 /**
- * Camera Viewer beta prototype.
+ * Project: Camera Viewer beta.
  *
- * This program compares two different facial detection algorithms.  One uses
- * a classifier file to identify faces and the other uses color selection.
- * To track with color selection, select an area in with Skin Detect window
- * using the mouse.
- * To exit, press the esc key.
- *
- * Known Issue: getting/setting fps does not work in openCV 1.1a.
+ * Description: Tracks head gestures with multiple feature tracking techniques.
  *
  * @author Brian Blonski
  * @version 1.$Rev$
+ * @date $Date$
  **/
 
 #include "resource.h"

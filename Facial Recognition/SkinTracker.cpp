@@ -211,12 +211,16 @@ SkinTracker::startTracking(IplImage * pImg)
     trackObject = 1;
 }
 
+/// Shrinks tracking frame by specified amount
 void 
 SkinTracker::shrinkTrackingBox(const int amount)
 {
 	// shrink tracking box so it doesn't grow
-	trackFrame.height -= amount;
-	trackFrame.width -= amount;
-	trackFrame.x += amount/2;
-	trackFrame.y += amount/2;
+	if(min(trackFrame.height, trackFrame.width) > amount)
+	{
+		trackFrame.height -= amount;
+		trackFrame.width -= amount;
+		trackFrame.x += amount/2;
+		trackFrame.y += amount/2;
+	}
 }

@@ -40,7 +40,7 @@ void
 HaarTracker::init()
 {
 	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, CV_WINDOW_AUTOSIZE);
-	util = new Utils(20, 200);
+	util = new Utils(200, 200);
 	image = NULL;
 }
 
