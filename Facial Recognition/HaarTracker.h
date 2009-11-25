@@ -3,6 +3,8 @@
 
 #include "Tracker.h"
 #include "Utils.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 class HaarTracker
 {
@@ -18,6 +20,7 @@ private:
 	CvHaarClassifierCascade* cascade;
 	CvHaarClassifierCascade* nestedCascade;
 	Utils* util;
+	vector<CvPoint> points;
 
 	void init();
 
@@ -26,6 +29,8 @@ public:
 	HaarTracker();
 	~HaarTracker(void);
 	CvRect* detect(const IplImage *frame);
-	void select(CvRect* r){};
+	//void select(CvRect* r){};	
+	vector<CvPoint> getPoints(void);
+
 };
 #endif

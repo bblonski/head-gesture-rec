@@ -3,7 +3,7 @@
 
 #define LK_TRACKER_WINDOW				"LK TRACKER"
 
-#include "tracker.h"
+#include "OpenCVIncludes.h"
 
 class LKTracker
 {
@@ -28,6 +28,7 @@ public:
 	void setPoint(int x, int y);
 	static void mouseCallback(int event, int x, int y, int flags, void* param);
 	void select(CvRect *r);
+	int getNumPoints();
 	LKTracker(void);
 	~LKTracker(void);
 };

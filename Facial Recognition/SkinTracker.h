@@ -3,7 +3,7 @@
 
 #define SKIN_FILTER_WINDOW				"Skin Filter"
 
-#include "Tracker.h"
+#include "OpenCVIncludes.h"
 #include "Utils.h"
 
 class SkinTracker

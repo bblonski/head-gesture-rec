@@ -25,37 +25,43 @@ int main(int argc, char* argv[])
 	LKTracker* lk = new LKTracker();
 	
 	CvRect* r = NULL;
-	// Tracking loop
-	while(true)
+	vector<CvPoint> faces;
+
+	try
 	{
-		try
+		// Tracking loop
+		while(true)
 		{
+
 			// Get frame frome camera
 			IplImage *tmp = cam->getFrame();
 			if(tmp == NULL)
 				break;
 
 			cvShowImage(CamCapture::MAIN_WINDOW, tmp);
-			lk->detect(tmp);
-			if(!r)
-				r = haar->detect(tmp);
-			else
-				haar->detect(tmp);
+
+			r = haar->detect(tmp);
 
 			if(r)
 			{
 				skin->select(r);
-				lk->select(r);
+
 			}
+			//if(lk->getNumPoints() < 5){
+			faces = haar->getPoints();
+			for (int i = 0 ; i < faces.size(); i++ )
+				lk->setPoint(faces[i].x, faces[i].y);
+			//}
+			lk->detect(tmp);
 
 			skin->detect(tmp);
 			
 			cvReleaseImage(&tmp);
 			free(r);
-		}catch (...)
-		{
-			cout << "Error";
 		}
+	}catch (...)
+	{
+		cout << "Error";
 	}
 	delete haar;
 	delete skin;

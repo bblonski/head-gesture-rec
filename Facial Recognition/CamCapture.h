@@ -1,7 +1,7 @@
 #ifndef _CAM_CAPTURE_H
 #define _CAM_CAPTURE_H
 
-#include "Tracker.h"
+#include "OpenCVIncludes.h"
 #include "Utils.h"
 
 class CamCapture

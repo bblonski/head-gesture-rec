@@ -1,9 +1,5 @@
 #include "HaarTracker.h"
-#include "Utils.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
+
 
 const char* const HaarTracker::HAAR_CLASSIFIER_WINDOW = "Haar Classifier";
 const char* const HaarTracker::HAARCASCADE_DIR = "C:\\Program Files (x86)\\OpenCV2.0\\data\\haarcascades\\";
@@ -36,6 +32,7 @@ HaarTracker::~HaarTracker(void)
 	cvReleaseHaarClassifierCascade(&cascade);
 }
 
+// Initializes class
 void
 HaarTracker::init()
 {
@@ -44,6 +41,7 @@ HaarTracker::init()
 	image = NULL;
 }
 
+// Detects the location of the face using a haar cascade classifier
 CvRect*
 HaarTracker::detect(const IplImage* frame)
 {
@@ -111,20 +109,17 @@ HaarTracker::detect(const IplImage* frame)
 			CvScalar color = {{0, 255, 0}};
 			int radius;
 			int j;
+			points.clear();
 			cvGetSubRect(frame, &small_img_roi, *r);
-			CvSeq *nested_objects = cvHaarDetectObjects(
-										&small_img_roi, 
-										nestedCascade, 
-										storage, 
-										2, 2, 
-										CV_HAAR_DO_CANNY_PRUNING);
-			for (j = 0; j < (nested_objects ? nested_objects->total : 0); j++)
+			CvSeq* nestedObjects = cvHaarDetectObjects(&small_img_roi, nestedCascade, storage, 2, 2, CV_HAAR_DO_CANNY_PRUNING);
+			for (j = 0; j < (nestedObjects ? nestedObjects->total : 0); j++)
 			{
-				CvRect *nr = (CvRect*)cvGetSeqElem(nested_objects, j);
+				CvRect *nr = (CvRect*)cvGetSeqElem(nestedObjects, j);
 				center.x = cvRound((r->x + nr->x + nr->width * 0.5));
 				center.y = cvRound((r->y + nr->y + nr->height * 0.5));
 				radius = cvRound((nr->width + nr->height) * 0.25);
 				cvCircle(image, center, radius, CV_RGB(0, 0, 255), 3, 8, 0);
+				points.push_back(center);
 			}
 		}else
 		{
@@ -139,5 +134,12 @@ HaarTracker::detect(const IplImage* frame)
     cvReleaseImage( &temp );
 	cvReleaseMemStorage( &storage );
 	return r;
+}
+
+// Returns an array of points for the locations of the subfeatures.
+vector<CvPoint>
+HaarTracker::getPoints()
+{
+	return points;
 }
 

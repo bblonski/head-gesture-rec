@@ -116,6 +116,11 @@ LKTracker::setCount()
 	numPoints = newNumPoints;
 }
 
+int
+LKTracker::getNumPoints(){
+	return numPoints;
+}
+
 // Automatically find good points to track
 void 
 LKTracker::autoFindPoints()
