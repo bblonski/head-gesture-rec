@@ -57,6 +57,9 @@ LKTracker::select(CvRect *r)
 	if(!image)
 		return;
 	ROI = new CvRect(*r);
+	// Shrink ROI because box tends to be larger than the face
+	// which results in including lots of background points.
+	// min size r should be 80x80
 	ROI->width -= 20;
 	ROI->height -= 20;
 	ROI->x += 10;
@@ -121,6 +124,7 @@ LKTracker::setCount()
 	numPoints = newNumPoints;
 }
 
+// Returns the current number of tracking points
 int
 LKTracker::getNumPoints(){
 	return numPoints;
@@ -131,15 +135,21 @@ void
 LKTracker::autoFindPoints()
 {
     /* automatic initialization */
-	
+	int i;	
+	// FIXME Initialize only once
 	IplImage* eig = cvCreateImage( cvGetSize(grey), 32, 1 );
 	IplImage* temp = cvCreateImage( cvGetSize(grey), 32, 1 );
-	double quality = 0.01;
-	double min_distance = 10;
+	// FIXME Move to constants?
+	const double quality = 0.01;
+	const double min_distance = 10;
+
+	numPoints = MAX_COUNT;
+
+	// Set ROI to only the face region (needs to be set on all images)
 	cvSetImageROI(grey, *ROI);
 	cvSetImageROI(eig, *ROI);
 	cvSetImageROI(temp, *ROI);
-	numPoints = MAX_COUNT;
+
 	cvGoodFeaturesToTrack( 
 		grey,				// Input image
 		eig,				// Temp image
@@ -153,8 +163,9 @@ LKTracker::autoFindPoints()
 		3,					// Size of averaging block
 		0,					// Use harris if nonzero
 		0.04 );				// Parameter only if harris!=0
+	// reset ROI
 	cvResetImageROI(grey);
-	int i;
+	// Move detected point locations relative to the ROI
 	for(i=0;i<numPoints;i++)
 	{
 		points[1][i].x += ROI->x;
