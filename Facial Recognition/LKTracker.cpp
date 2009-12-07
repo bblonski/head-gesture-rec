@@ -13,6 +13,7 @@ LKTracker::LKTracker(void)
 	hasNewPoint = false;
 	numPoints = 0;
 	initialized = true;
+	ROI = 0;
 }
 
 // Deconstructor
@@ -53,10 +54,14 @@ LKTracker::onMouse(int event, int x, int y)
 void
 LKTracker::select(CvRect *r)
 {
-	int x, y;
-	y = r->y + r->height/2;
-	x = r->x + r->width/2;
-	setPoint(x, y);
+	if(!image)
+		return;
+	ROI = new CvRect(*r);
+	ROI->width -= 20;
+	ROI->height -= 20;
+	ROI->x += 10;
+	ROI->y += 10;
+	initialized = false;
 }
 
 // Sets a tracking point at the given x-y coordinates
@@ -125,32 +130,42 @@ LKTracker::getNumPoints(){
 void 
 LKTracker::autoFindPoints()
 {
-	/* automatic initialization */
+    /* automatic initialization */
+	
 	IplImage* eig = cvCreateImage( cvGetSize(grey), 32, 1 );
 	IplImage* temp = cvCreateImage( cvGetSize(grey), 32, 1 );
 	double quality = 0.01;
 	double min_distance = 10;
-
+	cvSetImageROI(grey, *ROI);
+	cvSetImageROI(eig, *ROI);
+	cvSetImageROI(temp, *ROI);
 	numPoints = MAX_COUNT;
 	cvGoodFeaturesToTrack( 
-		grey,			// Input image
-		eig,			// Temp image
-		temp,			// Another temp image
-		points[1],		// Output of detected corners
-		&numPoints,		// Output of number of detected corners
-		quality,		// Min accepted quality
-		min_distance,	// Min distance between accepted corners
-		NULL,			// Mask - Region of interest
-						// consider using getSubRect to refine search area
-		3,				// Size of averaging block
-		0,				// Use harris if nonzero
-		0.04 );			// Parameter only if harris!=0
+		grey,				// Input image
+		eig,				// Temp image
+		temp,				// Another temp image
+		points[1],			// Output of detected corners
+		&numPoints,			// Output of number of detected corners
+		quality,			// Min accepted quality
+		min_distance,		// Min distance between accepted corners
+		NULL,				// Mask - Region of interest
+							// consider using getSubRect to refine search area
+		3,					// Size of averaging block
+		0,					// Use harris if nonzero
+		0.04 );				// Parameter only if harris!=0
+	cvResetImageROI(grey);
+	int i;
+	for(i=0;i<numPoints;i++)
+	{
+		points[1][i].x += ROI->x;
+		points[1][i].y += ROI->y;
+	}
+
 	cvFindCornerSubPix( grey, points[1], numPoints,
 		cvSize(WIN_SIZE,WIN_SIZE), cvSize(-1,-1),
 		cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03));
 	cvReleaseImage( &eig );
 	cvReleaseImage( &temp );
-
 	hasNewPoint = false;
 }
 
@@ -196,8 +211,7 @@ LKTracker::detect(const IplImage *frame)
 	CV_SWAP( points[0], points[1], swapPoints );
 	initialized = true;
 	cvShowImage( LK_TRACKER_WINDOW, image );
-	
-	return new CvRect();
+	return NULL;
 }
 
 // mouseCallback sets the onMouse event as a mouse callback function.

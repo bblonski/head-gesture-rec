@@ -9,13 +9,14 @@ class LKTracker
 {
 private:
 	//Constants
-	static const int WIN_SIZE = 10, MAX_COUNT = 500;
+	static const int WIN_SIZE = 10, MAX_COUNT = 30;
 	//Variables
 	IplImage *image, *grey, *prevGrey, *pyramid, *prevPyramid, *swapImage;
 	CvPoint2D32f* points[2], *swapPoints;
 	char* status;
 	int numPoints, flags;
 	CvPoint point;
+	CvRect* ROI;
 	bool hasNewPoint, initialized;
 	//Functions
 	void init(const IplImage* image);

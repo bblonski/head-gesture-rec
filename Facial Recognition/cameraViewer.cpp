@@ -26,13 +26,14 @@ int main(int argc, char* argv[])
 	
 	CvRect* r = NULL;
 	vector<CvPoint> faces;
+	int runonce = true;
 
-	try
+
+	// Tracking loop
+	while(true)
 	{
-		// Tracking loop
-		while(true)
-		{
-
+		/*try
+		{*/
 			// Get frame frome camera
 			IplImage *tmp = cam->getFrame();
 			if(tmp == NULL)
@@ -42,27 +43,30 @@ int main(int argc, char* argv[])
 
 			r = haar->detect(tmp);
 
-			if(r)
-			{
-				skin->select(r);
-
-			}
-			//if(lk->getNumPoints() < 5){
-			faces = haar->getPoints();
-			for (int i = 0 ; i < faces.size(); i++ )
-				lk->setPoint(faces[i].x, faces[i].y);
-			//}
 			lk->detect(tmp);
 
+			if(r && runonce)
+			{
+				skin->select(r);
+				lk->select(r);
+				runonce = false;
+			}
+			//if(lk->getNumPoints() < 5){
+			//faces = haar->getPoints();
+			//for (int i = 0 ; i < faces.size(); i++ )
+			//	lk->setPoint(faces[i].x, faces[i].y);
+			//}
+			
 			skin->detect(tmp);
 			
 			cvReleaseImage(&tmp);
 			free(r);
-		}
-	}catch (...)
-	{
-		cout << "Error";
+		//}catch (...)
+		//{
+		//	cerr << "Error";
+		//}
 	}
+	
 	delete haar;
 	delete skin;
 	delete cam;
