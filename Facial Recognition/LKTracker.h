@@ -30,6 +30,7 @@ public:
 	static void mouseCallback(int event, int x, int y, int flags, void* param);
 	void select(CvRect *r);
 	int getNumPoints();
+	CvPoint2D32f** getPoints();
 	LKTracker(void);
 	~LKTracker(void);
 };

@@ -225,6 +225,12 @@ LKTracker::detect(const IplImage *frame)
 	return NULL;
 }
 
+CvPoint2D32f**
+LKTracker::getPoints()
+{
+	return points;
+}
+
 // mouseCallback sets the onMouse event as a mouse callback function.
 void
 LKTracker::mouseCallback(int event, int x, int y, int flags, void *param)
