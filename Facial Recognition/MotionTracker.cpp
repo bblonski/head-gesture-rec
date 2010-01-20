@@ -1,8 +1,10 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #include "MotionTracker.h"
 
 MotionTracker::MotionTracker(void)
 {
-	motion = CENTER;
+	headLocation = CENTER;
 }
 
 MotionTracker::~MotionTracker(void)
@@ -16,7 +18,7 @@ MotionTracker::detect(CvPoint2D32f** points, int numPoints)
 	if(nextPoints == NULL)
 	{
 		nextPoints = points;
-		return motion;
+		return headLocation;
 	}
 	prevPoints = nextPoints;
 	nextPoints = points;
@@ -29,5 +31,5 @@ MotionTracker::detect(CvPoint2D32f** points, int numPoints)
 MotionTracker::HeadMotion
 MotionTracker::getMotion()
 {
-	return motion;
+	return headLocation;
 }

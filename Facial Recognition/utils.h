@@ -1,3 +1,5 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #ifndef _UTILS_H
 #define _UTILS_H
 

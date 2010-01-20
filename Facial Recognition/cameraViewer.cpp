@@ -1,13 +1,14 @@
 // $Id$
+// Copyright (c) 2010 by Brian Blonski
 /**
  * Project: Camera Viewer beta.
  *
  * Description: Tracks head gestures with multiple feature tracking techniques.
  *
  * @author Brian Blonski
- * @version 1.$Rev$
- * @date $Date$
- **/
+ * @version 1.$Rev: 47 $
+ * @date $Date: 2009-12-07 01:37:27 -0800 (Mon, 07 Dec 2009) $
+**/
 
 #include "resource.h"
 

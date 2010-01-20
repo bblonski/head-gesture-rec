@@ -1,3 +1,5 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #ifndef _CAM_CAPTURE_H
 #define _CAM_CAPTURE_H
 

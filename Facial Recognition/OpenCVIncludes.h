@@ -1,3 +1,5 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #ifndef _OPEN_CV_INCLUDES_H
 #define _OPEN_CV_INCLUDES_H
 

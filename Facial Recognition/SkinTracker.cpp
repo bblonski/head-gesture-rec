@@ -1,3 +1,5 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #include "SkinTracker.h"
 #include "OpenCVIncludes.h"
 

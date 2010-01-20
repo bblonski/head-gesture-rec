@@ -1,3 +1,5 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #ifndef _FACE_RECOGNITION_H
 #define _FACE_RECOGNITION_H
 

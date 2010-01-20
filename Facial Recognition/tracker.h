@@ -1,3 +1,5 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #ifndef _TRACKER_H
 #define _TRACKER_H	
 

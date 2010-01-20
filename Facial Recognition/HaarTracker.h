@@ -1,3 +1,5 @@
+// $Id$
+// Copyright (c) 2010 by Brian Blonski
 #ifndef _HAAR_TRACKER_H
 #define _HAAR_TRACKER_H
 
