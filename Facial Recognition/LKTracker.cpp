@@ -5,8 +5,8 @@ LKTracker::LKTracker(void)
 {
 	cvNamedWindow(LK_TRACKER_WINDOW, CV_WINDOW_AUTOSIZE);
 	cvSetMouseCallback(LK_TRACKER_WINDOW, &LKTracker::mouseCallback, this); 
-	points[0] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(points[0][0]));
-    points[1] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(points[0][0]));
+	points[0] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(CvPoint2D32f));
+    points[1] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(CvPoint2D32f));
     status = (char*)cvAlloc(MAX_COUNT);
     flags = 0;
 	image = grey = prevGrey = pyramid = prevPyramid = swapImage = 0;
