@@ -19,8 +19,8 @@ LKTracker | LKTracker::getPoints()
 class MotionTracker
 {
 private:
-    static const int X_THRESHOLD = 0;
-    static const int Y_THRESHOLD = 0;
+    const double X_THRESHOLD;
+    const double Y_THRESHOLD;
     int left, right, up, down, center_x, center_y;
 	/// The valid states for the location of the head.
 	typedef enum HeadMotion { LEFT, RIGHT, UP, DOWN, CENTER } HeadMotion;

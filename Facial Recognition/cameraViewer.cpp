@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
 	HaarTracker* haar = new HaarTracker();
 	SkinTracker* skin = new SkinTracker();
 	LKTracker* lk = new LKTracker();
+    MotionTracker* motionTracker = new MotionTracker();
 	
 	CvRect* r = NULL;
 	vector<CvPoint> faces;
@@ -42,13 +43,14 @@ int main(int argc, char* argv[])
 
 			cvShowImage(CamCapture::MAIN_WINDOW, tmp);
 
-			r = haar->detect(tmp);
+            if(runonce)
+			    r = haar->detect(tmp);
 
 			lk->detect(tmp);
 
 			if(r && runonce)
 			{
-				skin->select(r);
+				//skin->select(r);
 				lk->select(r);
 				runonce = false;
 			}
@@ -57,11 +59,15 @@ int main(int argc, char* argv[])
 			//for (int i = 0 ; i < faces.size(); i++ )
 			//	lk->setPoint(faces[i].x, faces[i].y);
 			//}
+
+            motionTracker->detect(lk->getPoints(), lk->getNumPoints());
 			
-			skin->detect(tmp);
+			//skin->detect(tmp);
 			
 			cvReleaseImage(&tmp);
-			free(r);
+            if(r)
+			    free(r);
+            r = NULL;
 		//}catch (...)
 		//{
 		//	cerr << "Error";
