@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GestureTracker.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HaarTracker.cpp"
 				>
 			</File>
@@ -224,6 +228,10 @@
 			>
 			<File
 				RelativePath=".\CamCapture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GestureTracker.h"
 				>
 			</File>
 			<File

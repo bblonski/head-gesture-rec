@@ -13,7 +13,7 @@ MotionTracker::~MotionTracker(void)
 }
 
 
-MotionTracker::HeadMotion
+HeadMotion
 MotionTracker::detect(CvPoint2D32f** points, int numPoints)
 {
     left = right = center_x = center_y = up = down = 0;
@@ -77,7 +77,7 @@ MotionTracker::detect(CvPoint2D32f** points, int numPoints)
     return headLocation;
 }
 
-MotionTracker::HeadMotion
+HeadMotion
 MotionTracker::getMotion()
 {
     return headLocation;

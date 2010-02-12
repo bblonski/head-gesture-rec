@@ -5,6 +5,8 @@
 
 #include "OpenCVIncludes.h"
 
+typedef enum HeadMotion { LEFT, RIGHT, UP, DOWN, CENTER } HeadMotion;
+
 /**
 \brief
 MotionTracker tracks the motion of a face.
@@ -18,19 +20,20 @@ LKTracker | LKTracker::getPoints()
  */
 class MotionTracker
 {
+public:
+	MotionTracker(void);
+	~MotionTracker(void);
+    /// The valid states for the location of the head.
+    HeadMotion headMotion;
+	HeadMotion detect(CvPoint2D32f** points, int);
+	HeadMotion getMotion();    
 private:
     const double X_THRESHOLD;
     const double Y_THRESHOLD;
     int left, right, up, down, center_x, center_y;
-	/// The valid states for the location of the head.
-	typedef enum HeadMotion { LEFT, RIGHT, UP, DOWN, CENTER } HeadMotion;
 	CvPoint2D32f** prevPoints;  ///< The previous set of points.
 	CvPoint2D32f** nextPoints;  ///< The Current set of points.
 	HeadMotion headLocation;   	///< The current head location.
-public:
-	MotionTracker(void);
-	~MotionTracker(void);
-	HeadMotion detect(CvPoint2D32f** points, int);
-	HeadMotion getMotion();
+
 };
 #endif
