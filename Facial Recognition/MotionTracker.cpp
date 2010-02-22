@@ -3,7 +3,7 @@
 #include "MotionTracker.h"
 #include <iostream>
 
-MotionTracker::MotionTracker(void): X_THRESHOLD(0.5), Y_THRESHOLD(0.2)
+MotionTracker::MotionTracker(void): X_THRESHOLD(0.5), Y_THRESHOLD(0.5)
 {
     headLocation = CENTER;
 }
@@ -16,7 +16,7 @@ MotionTracker::~MotionTracker(void)
 HeadMotion
 MotionTracker::detect(CvPoint2D32f** points, int numPoints)
 {
-    left = right = center_x = center_y = up = down = 0;
+    double left = 0, right = 0, center_x = 0, center_y = 0, up = 0, down = 0;
     // first initialization
     if(nextPoints == NULL)
     {
@@ -30,34 +30,34 @@ MotionTracker::detect(CvPoint2D32f** points, int numPoints)
         // calculate direction of movement on x-axis
         if( points[0][i].x > points[1][i].x + X_THRESHOLD )
         { // go left?
-            left++;
+            left += points[0][i].x - points[1][i].x;
         }else if (points[0][i].x < points[1][i].x - X_THRESHOLD )
         { // go right?
-            right++;
+            right += points[1][i].x - points[0][i].x;
         }else
         { // no horizontal movement
-            center_x++;
+            center_x += X_THRESHOLD;
         }
         // calculate direction of movement on y-axis
         if( points[0][i].y > points[1][i].y + Y_THRESHOLD)
         { // go up
-            down++;
+            down += points[0][i].y - points[1][i].y;
         }else if( points[0][i].y < points[1][i].y - Y_THRESHOLD)
         { // go down
-            up++;
+            up += points[1][i].y - points[0][i].y;
         }else
         { // no vertical movement
-            center_y++;
+            center_y += Y_THRESHOLD;
         }
     }
     //determine direction
-    if(left > max(right, center_x) && center_y > max(up, down))
+    if(left > max(right, center_x) && max(left, center_y) > max(up, down))
         headLocation = LEFT;
-    else if( right > max(left, center_x) && center_y > max(up, down))
+    else if( right > max(left, center_x) && max(right, center_y) > max(up, down))
         headLocation = RIGHT;
-    else if( up > max(down, center_y) && center_x > max(left, right))
+    else if( up > max(down, center_y) && max(up, center_x) > max(left, right))
         headLocation = UP;
-    else if( down > max(up, center_y) && center_x > max(left, right))
+    else if( down > max(up, center_y) && max(down, center_x) > max(left, right))
         headLocation = DOWN;
     else
         headLocation = CENTER;

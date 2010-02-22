@@ -30,7 +30,6 @@ public:
 private:
     const double X_THRESHOLD;
     const double Y_THRESHOLD;
-    int left, right, up, down, center_x, center_y;
 	CvPoint2D32f** prevPoints;  ///< The previous set of points.
 	CvPoint2D32f** nextPoints;  ///< The Current set of points.
 	HeadMotion headLocation;   	///< The current head location.
