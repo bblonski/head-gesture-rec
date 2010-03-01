@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
 	SkinTracker* skin = new SkinTracker();
 	LKTracker* lk = new LKTracker();
     MotionTracker* motionTracker = new MotionTracker();
+    GestureTracker* gestureTracker = new GestureTracker();
 	
 	CvRect* r = NULL;
 	vector<CvPoint> faces;
@@ -50,19 +51,14 @@ int main(int argc, char* argv[])
 
 			if(r && runonce)
 			{
-				//skin->select(r);
 				lk->select(r);
 				runonce = false;
-			}
-			//if(lk->getNumPoints() < 5){
-			//faces = haar->getPoints();
-			//for (int i = 0 ; i < faces.size(); i++ )
-			//	lk->setPoint(faces[i].x, faces[i].y);
-			//}
-
-            motionTracker->detect(lk->getPoints(), lk->getNumPoints());
-			
-			//skin->detect(tmp);
+            }
+            HeadGesture gesture = gestureTracker->track(motionTracker->detect(lk->getPoints(), lk->getNumPoints()));
+            if(gesture == nod)
+                printf("NOD DETECTED!\n");
+            else if(gesture == shake)
+                printf("SHAKE DETECTED!\n");
 			
 			cvReleaseImage(&tmp);
             if(r)

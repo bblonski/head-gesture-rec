@@ -10,6 +10,7 @@
 #include "CamCapture.h"
 #include "LKTracker.h"
 #include "MotionTracker.h"
+#include "GestureTracker.h"
 using namespace std; 
 
 //{{NO_DEPENDENCIES}}

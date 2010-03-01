@@ -13,8 +13,10 @@ GestureTracker::~GestureTracker(void)
 HeadGesture
 GestureTracker::track(HeadMotion motion)
 {
-    if(gestureCount > GESTURE_TIMEOUT || state == nod || state == shake)
+    if(gestureCount > GESTURE_TIMEOUT || state == nod || state == shake){
         state = none;
+        gestureCount = 0;
+    }
 
     switch(motion)
     {

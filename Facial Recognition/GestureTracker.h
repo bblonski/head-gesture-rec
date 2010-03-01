@@ -10,7 +10,7 @@ class GestureTracker
 {
 private:
     int gestureCount;
-    static const int GESTURE_TIMEOUT = 10;
+    static const int GESTURE_TIMEOUT = 15;
     HeadGesture state;
 public:
     GestureTracker(void);
