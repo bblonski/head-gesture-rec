@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
 	// Init new trackers
 	HaarTracker* haar = new HaarTracker();
-	SkinTracker* skin = new SkinTracker();
+	//SkinTracker* skin = new SkinTracker();
 	LKTracker* lk = new LKTracker();
     MotionTracker* motionTracker = new MotionTracker();
     GestureTracker* gestureTracker = new GestureTracker();
@@ -71,8 +71,11 @@ int main(int argc, char* argv[])
 	}
 	
 	delete haar;
-	delete skin;
+	//delete skin;
 	delete cam;
+    delete lk;
+    delete motionTracker;
+    delete gestureTracker;
     return 0;
 }
 

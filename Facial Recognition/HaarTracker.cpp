@@ -30,7 +30,7 @@ HaarTracker::HaarTracker(CvHaarClassifierCascade *pCascade, CvHaarClassifierCasc
 
 HaarTracker::~HaarTracker(void)
 {
-	cvDestroyWindow(HAAR_CLASSIFIER_WINDOW);
+	//cvDestroyWindow(HAAR_CLASSIFIER_WINDOW);
 	cvReleaseHaarClassifierCascade(&cascade);
 }
 
@@ -38,7 +38,7 @@ HaarTracker::~HaarTracker(void)
 void
 HaarTracker::init()
 {
-	cvNamedWindow(HAAR_CLASSIFIER_WINDOW, CV_WINDOW_AUTOSIZE);
+	//cvNamedWindow(HAAR_CLASSIFIER_WINDOW, CV_WINDOW_AUTOSIZE);
 	util = new Utils(200, 200);
 	image = NULL;
 }
@@ -131,7 +131,7 @@ HaarTracker::detect(const IplImage* frame)
 
     }
 	
-	cvShowImage(HAAR_CLASSIFIER_WINDOW, image);
+	//cvShowImage(HAAR_CLASSIFIER_WINDOW, image);
     // Release the temp image created.
     cvReleaseImage( &temp );
 	cvReleaseMemStorage( &storage );
