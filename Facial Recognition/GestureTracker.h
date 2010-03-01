@@ -3,16 +3,15 @@
 
 #include "MotionTracker.h"
 
-typedef enum HeadGesture { NONE, NOD, SHAKE } HeadGesture;
+typedef enum HeadGesture { none, up1, down1, up2, down2, shake, 
+                           left1, right1, left2, right2,  nod} HeadGesture;
 
 class GestureTracker
 {
 private:
     int gestureCount;
-    static const int GESTURE_ARRAY_LENGTH = 5;
     static const int GESTURE_TIMEOUT = 10;
-    HeadMotion gestures[5];
-    HeadGesture detect(HeadMotion[]);
+    HeadGesture state;
 public:
     GestureTracker(void);
     ~GestureTracker(void);
