@@ -1,6 +1,5 @@
 // $Id$
 // Copyright (c) 2010 by Brian Blonski
-#include "CamCapture.h"
 #include "Resource.h"
 
 /// Name to display in the Main Window

@@ -3,14 +3,13 @@
 #ifndef _SKIN_TRACKER_H
 #define _SKIN_TRACKER_H
 
-#define SKIN_FILTER_WINDOW				"Skin Filter"
-
 #include "OpenCVIncludes.h"
 #include "Utils.h"
 
 class SkinTracker
 {
 private:
+    static const char* const SKIN_FILTER_WINDOW;
 	IplImage *hsv, *hue, *mask, *backproject, *histImage,
 		*image;
 	CvHistogram *hist;

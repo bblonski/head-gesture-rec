@@ -3,20 +3,18 @@
 #include "SkinTracker.h"
 #include "OpenCVIncludes.h"
 
-SkinTracker::SkinTracker(void)
+const char* const SkinTracker::SKIN_FILTER_WINDOW = "Skin Filter";
+
+SkinTracker::SkinTracker(void) : vmin(65), vmax(256), smin(0), hdims(16),
+    backprojectMode(0), util(new Utils(200, 200)), image(0), hsv(0), hue(0),
+    mask(0), backproject(0), histImage(0), trackObject(0), showHist(0), selectObject(0)
 {
-	vmin = 65, vmax = 256, smin = 0;
 	cvNamedWindow(SKIN_FILTER_WINDOW, 1 );
 	cvCreateTrackbar( "Vmin", SKIN_FILTER_WINDOW, &vmin, 256, 0 );
 	cvCreateTrackbar( "Vmax", SKIN_FILTER_WINDOW, &vmax, 256, 0 );
 	cvCreateTrackbar( "Smin", SKIN_FILTER_WINDOW, &smin, 256, 0 );
 	cvSetMouseCallback(SKIN_FILTER_WINDOW,
 		&SkinTracker::mouseCallback, this );
-	image = hsv = hue = mask = backproject = histImage = 0;
-	trackObject = showHist = selectObject = 0;
-	backprojectMode = 0;
-	hdims = 16;
-	util = new Utils(200, 200);
 }
 
 SkinTracker::~SkinTracker(void)

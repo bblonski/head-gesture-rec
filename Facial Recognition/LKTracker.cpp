@@ -3,19 +3,14 @@
 #include "LKTracker.h"
 
 // Constructor
-LKTracker::LKTracker(void)
+LKTracker::LKTracker(void) : flags(0), hasNewPoint(false), numPoints(0), ROI(0),
+    initialized(true), image(grey = prevGrey = pyramid = prevPyramid = swapImage = 0),
+    status((char*)cvAlloc(MAX_COUNT))
 {
 	cvNamedWindow(LK_TRACKER_WINDOW, CV_WINDOW_AUTOSIZE);
 	cvSetMouseCallback(LK_TRACKER_WINDOW, &LKTracker::mouseCallback, this); 
 	points[0] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(CvPoint2D32f));
     points[1] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(CvPoint2D32f));
-    status = (char*)cvAlloc(MAX_COUNT);
-    flags = 0;
-	image = grey = prevGrey = pyramid = prevPyramid = swapImage = 0;
-	hasNewPoint = false;
-	numPoints = 0;
-	initialized = true;
-	ROI = 0;
 }
 
 // Deconstructor

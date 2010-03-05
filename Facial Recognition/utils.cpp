@@ -2,10 +2,8 @@
 // Copyright (c) 2010 by Brian Blonski
 #include "Utils.h"
 
-Utils::Utils(int xCoord, int yCoord)
+Utils::Utils(int xCoord, int yCoord) : xCoordLocation(xCoord), yCoordLocation(yCoord)
 {
-	xCoordLocation = xCoord;
-	yCoordLocation = yCoord;
 }
 
 Utils::Utils(void)

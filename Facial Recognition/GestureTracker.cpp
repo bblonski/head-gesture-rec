@@ -1,9 +1,7 @@
 #include "GestureTracker.h"
 
-GestureTracker::GestureTracker(void)
+GestureTracker::GestureTracker(void) : gestureCount(0), state(none)
 {
-    gestureCount = 0;
-    state = none;
 }
 
 GestureTracker::~GestureTracker(void)
@@ -13,7 +11,8 @@ GestureTracker::~GestureTracker(void)
 HeadGesture
 GestureTracker::track(HeadMotion motion)
 {
-    if(gestureCount > GESTURE_TIMEOUT || state == nod || state == shake){
+    if(gestureCount > GESTURE_TIMEOUT || state == nod || state == shake)
+    {
         state = none;
         gestureCount = 0;
     }

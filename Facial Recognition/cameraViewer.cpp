@@ -28,7 +28,6 @@ int main(int argc, char* argv[])
     GestureTracker* gestureTracker = new GestureTracker();
 	
 	CvRect* r = NULL;
-	vector<CvPoint> faces;
 	int runonce = true;
 
 	// Tracking loop
@@ -41,8 +40,14 @@ int main(int argc, char* argv[])
 			if(tmp == NULL)
 				break;
 
-            if(runonce)
+            if(!r)
+            {
 			    r = haar->detect(tmp);
+             /*   if(!r){
+                    Sleep(1000);
+                    continue;
+                }*/
+            }
 
 			lk->detect(tmp);
 
