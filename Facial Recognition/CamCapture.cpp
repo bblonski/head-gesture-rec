@@ -5,12 +5,12 @@
 
 /// Name to display in the Main Window
 const char* const CamCapture::MAIN_WINDOW = "Main";
+const char* const CamCapture::VIDEO_FILE_NAME = "test.avi";
 
 /// Constructor for CamCapture
-CamCapture::CamCapture(void)
+CamCapture::CamCapture(void) : writer(NULL), util(new Utils()), 
+capture(cvCaptureFromCAM(0))
 {
-	util = new Utils();
-	capture = cvCaptureFromCAM( 0 ); // get images from first camera
 	cvNamedWindow(MAIN_WINDOW, 1);
 	// if capture fails, display connect camera message
     if( !capture )
@@ -22,6 +22,9 @@ CamCapture::CamCapture(void)
 /// Deconstructor for CamCapture
 CamCapture::~CamCapture(void)
 {
+    delete util;
+    if(writer)
+        cvReleaseVideoWriter(&writer);
 	cvReleaseCapture( &capture );
 	cvDestroyWindow(MAIN_WINDOW);
 }
@@ -46,6 +49,11 @@ IplImage* CamCapture::getFrame()
 	frame = cvQueryFrame( capture );
 	if( !frame )
 		return NULL;
+    if( !writer)
+        writer = cvCreateVideoWriter(VIDEO_FILE_NAME, CV_FOURCC('I','Y','U','V'), 
+        10, cvGetSize(frame));
+    cvWriteFrame(writer, frame);
+    cvShowImage(MAIN_WINDOW, frame);
 
 	// create image size of frame
 	if( !image )

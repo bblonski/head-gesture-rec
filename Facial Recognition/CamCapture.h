@@ -9,10 +9,12 @@
 class CamCapture
 {
 private:
+    static const char* const MAIN_WINDOW;
+    static const char* const VIDEO_FILE_NAME;
+    CvVideoWriter* writer;
 	CvCapture* capture;
 	Utils* util;
 public:
-	static const char* const MAIN_WINDOW;
 	CamCapture(void);
 	~CamCapture(void);
 	IplImage* getFrame();

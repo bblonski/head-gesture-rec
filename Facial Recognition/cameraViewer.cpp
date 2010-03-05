@@ -31,7 +31,6 @@ int main(int argc, char* argv[])
 	vector<CvPoint> faces;
 	int runonce = true;
 
-
 	// Tracking loop
 	while(true)
 	{
@@ -41,8 +40,6 @@ int main(int argc, char* argv[])
 			IplImage *tmp = cam->getFrame();
 			if(tmp == NULL)
 				break;
-
-			cvShowImage(CamCapture::MAIN_WINDOW, tmp);
 
             if(runonce)
 			    r = haar->detect(tmp);
