@@ -1,6 +1,7 @@
 // $Id$
 // Copyright (c) 2010 by Brian Blonski
 #include "Resource.h"
+#include "GestureEvent.h"
 
 /// Name to display in the Main Window
 const char* const CamCapture::MAIN_WINDOW = "Main";
@@ -65,7 +66,7 @@ IplImage* CamCapture::getFrame()
 	cvCopy( frame, image, 0 );
 
 	// wait for esc key
-	c = cvWaitKey(10);
+	c = cvWaitKey(1);
 	if( (char) c == 27 )
 	{
         // cleanup

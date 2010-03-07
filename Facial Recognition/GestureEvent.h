@@ -9,13 +9,13 @@
 class GestureEvent
 {
 public:
-    __event void gEvent(int nValue);
+    __event void gEvent(int i);
 };
 
 [event_receiver(native)]
 class GestureReceiver {
 public:
-   void gHandler() {
+   void gHandler(int i) {
       printf("Event Triggered\n");
    }
 

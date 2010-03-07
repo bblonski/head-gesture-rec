@@ -11,6 +11,7 @@
 **/
 
 #include "resource.h"
+#include "GestureEvent.h"
 
 //C:\Program Files (x86)\OpenCV\data\haarcascades\haarcascade_frontalface_alt.xml
 
@@ -19,6 +20,11 @@ int main(int argc, char* argv[])
 {
 	// Create new camera capture
 	CamCapture *cam = new CamCapture();
+    GestureReceiver receiver;
+    GestureEvent ev;
+    receiver.hookEvent(&ev);
+    
+    //receiver.unhookEvent(&ev);
 
 	// Init new trackers
 	HaarTracker* haar = new HaarTracker();
@@ -57,8 +63,10 @@ int main(int argc, char* argv[])
 				runonce = false;
             }
             HeadGesture gesture = gestureTracker->track(motionTracker->detect(lk->getPoints(), lk->getNumPoints()));
-            if(gesture == nod)
+            if(gesture == nod){
                 printf("NOD DETECTED!\n");
+                __raise ev.gEvent(1);
+            }
             else if(gesture == shake)
                 printf("SHAKE DETECTED!\n");
 			
@@ -71,6 +79,8 @@ int main(int argc, char* argv[])
 		//	cerr << "Error";
 		//}
 	}
+
+    receiver.unhookEvent(&ev);
 	
 	delete haar;
 	//delete skin;

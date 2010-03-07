@@ -142,7 +142,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/LIBPATH:&quot;D:\My Documents\Visual Studio 2008\Projects\OpenCV\lib\Release&quot;"
+				AdditionalOptions="/LIBPATH:&quot;C:\Program Files (x86)\OpenCV2.0\lib\Release&quot;"
 				AdditionalDependencies="cv200.lib cxcore200.lib highgui200.lib cvaux200.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -228,6 +228,10 @@
 			>
 			<File
 				RelativePath=".\CamCapture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GestureEvent.h"
 				>
 			</File>
 			<File
