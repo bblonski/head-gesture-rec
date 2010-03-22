@@ -1,13 +1,13 @@
 // $Id$
 // Copyright (c) 2010 by Brian Blonski
 /**
- * Project: Camera Viewer beta.
- *
- * Description: Tracks head gestures with multiple feature tracking techniques.
- *
- * @author Brian Blonski
- * @version 1.$Rev: 47 $
- * @date $Date: 2009-12-07 01:37:27 -0800 (Mon, 07 Dec 2009) $
+* Project: Camera Viewer beta.
+*
+* Description: Tracks head gestures with multiple feature tracking techniques.
+*
+* @author Brian Blonski
+* @version 1.$Rev: 47 $
+* @date $Date: 2009-12-07 01:37:27 -0800 (Mon, 07 Dec 2009) $
 **/
 
 #include "resource.h"
@@ -18,73 +18,73 @@
 // Entry Point for Program
 int main(int argc, char* argv[])
 {
-	// Create new camera capture
-	CamCapture *cam = new CamCapture();
+    // Create new camera capture
+    CamCapture *cam = new CamCapture();
     GestureReceiver receiver;
     GestureEvent ev;
     receiver.hookEvent(&ev);
-    
+
     //receiver.unhookEvent(&ev);
 
-	// Init new trackers
-	HaarTracker* haar = new HaarTracker();
-	//SkinTracker* skin = new SkinTracker();
-	LKTracker* lk = new LKTracker();
+    // Init new trackers
+    HaarTracker* haar = new HaarTracker();
+    //SkinTracker* skin = new SkinTracker();
+    LKTracker* lk = new LKTracker();
     MotionTracker* motionTracker = new MotionTracker();
     GestureTracker* gestureTracker = new GestureTracker();
-	
-	CvRect* r = NULL;
-	int runonce = true;
 
-	// Tracking loop
-	while(true)
-	{
-		/*try
-		{*/
-			// Get frame frome camera
-			IplImage *tmp = cam->getFrame();
-			if(tmp == NULL)
-				break;
+    CvRect* r = NULL;
+    int runonce = true;
 
-            if(!r)
-            {
-			    r = haar->detect(tmp);
-             /*   if(!r){
-                    Sleep(1000);
-                    continue;
-                }*/
-            }
+    // Tracking loop
+    while(true)
+    {
+        /*try
+        {*/
+        // Get frame frome camera
+        IplImage *tmp = cam->getFrame();
+        if(tmp == NULL)
+            break;
 
-			lk->detect(tmp);
+        if(!r)
+        {
+            r = haar->detect(tmp);
+            /*   if(!r){
+            Sleep(1000);
+            continue;
+            }*/
+        }
 
-			if(r && runonce)
-			{
-				lk->select(r);
-				runonce = false;
-            }
-            HeadGesture gesture = gestureTracker->track(motionTracker->detect(lk->getPoints(), lk->getNumPoints()));
-            if(gesture == nod){
-                printf("NOD DETECTED!\n");
-                __raise ev.gEvent(1);
-            }
-            else if(gesture == shake)
-                printf("SHAKE DETECTED!\n");
-			
-			cvReleaseImage(&tmp);
-            if(r)
-			    free(r);
-            r = NULL;
-		//}catch (...)
-		//{
-		//	cerr << "Error";
-		//}
-	}
+        lk->detect(tmp);
+
+        if(r && runonce)
+        {
+            lk->select(r);
+            runonce = false;
+        }
+        HeadGesture gesture = gestureTracker->track(motionTracker->detect(lk->getPoints(), lk->getNumPoints()));
+        if(gesture == nod){
+            printf("NOD DETECTED!\n");
+            __raise ev.gEvent(1);
+        }
+        else if(gesture == shake)
+            printf("SHAKE DETECTED!\n");
+
+        cvReleaseImage(&tmp);
+        if(r)
+            free(r);
+        r = NULL;
+        //}catch (...)
+        //{
+        //	cerr << "Error";
+        //}
+    }
 
     receiver.unhookEvent(&ev);
-	
-	delete haar;
-	//delete skin;
-	delete cam;
+
+    delete haar;
+    //delete skin;
+    delete cam;
     delete lk;
     delete motionTracker;
     delete gestureTracker;
