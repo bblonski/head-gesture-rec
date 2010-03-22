@@ -23,7 +23,7 @@ LKTracker::~LKTracker(void)
 void
 LKTracker::init(const IplImage* frame)
 {
-	image = cvCreateImage( cvGetSize(frame), 8, 3 );
+	image = cvCreateImage( cvGetSize(frame), 8, 1 );
     image->origin = frame->origin;
     grey = cvCreateImage( cvGetSize(frame), 8, 1 );
     prevGrey = cvCreateImage( cvGetSize(frame), 8, 1 );
@@ -189,7 +189,8 @@ LKTracker::detect(const IplImage *frame)
 	// copy frame to image
 	cvCopy(frame, image, 0);
 	// Convert image to greyscale
-	cvCvtColor(image, grey, CV_BGR2GRAY);
+	cvCopy(image, grey, 0);
+	//cvCvtColor(image, grey, CV_BGR2GRAY);
 	if(!initialized)
 	{
 		autoFindPoints();

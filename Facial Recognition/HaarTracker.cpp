@@ -50,12 +50,12 @@ HaarTracker::detect(const IplImage* frame)
 	CvRect* r = new CvRect();
 	if(!image)
 	{
-		image = cvCreateImage(cvGetSize(frame), 8, 3);
+		image = cvCreateImage(cvGetSize(frame), 8, 1);
 		image->origin = frame->origin;
 	}
 	cvCopyImage(frame, image);
     // Create a new frame based on the input frame
-    IplImage* temp = cvCreateImage(cvGetSize(image), 8, 3 );
+    IplImage* temp = cvCreateImage(cvGetSize(image), 8, 1 );
 
     // Create two points to represent corners of the face bounding box
     CvPoint pt1, pt2;
