@@ -7,7 +7,7 @@
 #include "Capture.h"
 #include "Utils.h"
 
-class CamCapture : Capture
+class CamCapture : public Capture
 {
 private:
     static const char* const MAIN_WINDOW;

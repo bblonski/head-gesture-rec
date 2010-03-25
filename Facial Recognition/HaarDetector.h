@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-class HaarDetector
+class HaarDetector : public Detector
 {
 private:
 	static const char* const HAAR_CLASSIFIER_WINDOW;
@@ -31,7 +31,7 @@ public:
 	HaarDetector();
 	~HaarDetector(void);
 	CvRect* detect(const IplImage *frame);
-	//void select(CvRect* r){};	
+	void select(CvRect* r){};	
 	vector<CvPoint> getPoints(void);
 
 };

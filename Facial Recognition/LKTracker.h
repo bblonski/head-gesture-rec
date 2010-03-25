@@ -6,12 +6,13 @@
 #define LK_TRACKER_WINDOW				"LK TRACKER"
 
 #include "OpenCVIncludes.h"
+#include "Tracker.h"
 
 class LKTracker
 {
 private:
 	//Constants
-	static const int WIN_SIZE = 10, MAX_COUNT = 30;
+	static const int WIN_SIZE = 10, MAX_COUNT = 10;
 	//Variables
 	IplImage *image, *grey, *prevGrey, *pyramid, *prevPyramid, *swapImage;
 	CvPoint2D32f* points[2], *swapPoints;

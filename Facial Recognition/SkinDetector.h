@@ -4,9 +4,10 @@
 #define _SKIN_TRACKER_H
 
 #include "OpenCVIncludes.h"
+#include "Detector.h"
 #include "Utils.h"
 
-class SkinDetector
+class SkinDetector : public Detector
 {
 private:
     static const char* const SKIN_FILTER_WINDOW;

@@ -9,7 +9,7 @@ class Detector
 {	
 
 public:
-	virtual CvRect* detect(IplImage *image) = 0;
+	virtual CvRect* detect(const IplImage *image) = 0;
 	virtual void select(CvRect* r) = 0;
 };
 

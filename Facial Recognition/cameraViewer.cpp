@@ -19,7 +19,7 @@
 int main(int argc, char* argv[])
 {
     // Create new camera capture
-    CamCapture *cam = new CamCapture();
+    Capture *cam = new CamCapture();
     GestureReceiver receiver;
     GestureEvent ev;
     receiver.hookEvent(&ev);
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     //receiver.unhookEvent(&ev);
 
     // Init new trackers
-    HaarDetector* haar = new HaarDetector();
+    Detector* haar = new HaarDetector();
     //SkinDetector* skin = new SkinDetector();
     LKTracker* lk = new LKTracker();
     MotionTracker* motionTracker = new MotionTracker();
@@ -71,9 +71,9 @@ int main(int argc, char* argv[])
             printf("SHAKE DETECTED!\n");
 
         cvReleaseImage(&tmp);
-        if(r)
-            free(r);
-        r = NULL;
+        //if(r)
+        //    free(r);
+        //r = NULL;
         //}catch (...)
         //{
         //	cerr << "Error";
