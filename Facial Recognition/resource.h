@@ -5,8 +5,8 @@
 
 #include <iostream>
 #include <exception>
-#include "HaarTracker.h"
-#include "SkinTracker.h"
+#include "HaarDetector.h"
+#include "SkinDetector.h"
 #include "CamCapture.h"
 #include "LKTracker.h"
 #include "MotionTracker.h"

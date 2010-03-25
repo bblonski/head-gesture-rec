@@ -1,14 +1,14 @@
 // $Id$
 // Copyright (c) 2010 by Brian Blonski
-#ifndef _HAAR_TRACKER_H
-#define _HAAR_TRACKER_H
+#ifndef _HAAR_DETECTOR_H
+#define _HAAR_DETECTOR_H
 
-#include "Tracker.h"
+#include "Detector.h"
 #include "Utils.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-class HaarTracker
+class HaarDetector
 {
 private:
 	static const char* const HAAR_CLASSIFIER_WINDOW;
@@ -27,9 +27,9 @@ private:
 	void init();
 
 public:
-	HaarTracker(CvHaarClassifierCascade* param, CvHaarClassifierCascade* pNestedCascade);
-	HaarTracker();
-	~HaarTracker(void);
+	HaarDetector(CvHaarClassifierCascade* param, CvHaarClassifierCascade* pNestedCascade);
+	HaarDetector();
+	~HaarDetector(void);
 	CvRect* detect(const IplImage *frame);
 	//void select(CvRect* r){};	
 	vector<CvPoint> getPoints(void);

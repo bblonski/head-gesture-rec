@@ -6,7 +6,7 @@
 #include "OpenCVIncludes.h"
 #include "Utils.h"
 
-class SkinTracker
+class SkinDetector
 {
 private:
     static const char* const SKIN_FILTER_WINDOW;
@@ -28,8 +28,8 @@ private:
 	void init(const IplImage* frame);
 
 public:
-	SkinTracker(void);
-	~SkinTracker(void);
+	SkinDetector(void);
+	~SkinDetector(void);
 	static void mouseCallback(int event, int x, int y, int flags, void* param);
 	void onMouse(int event, int x, int y);
 	CvRect* detect(const IplImage *pImg);

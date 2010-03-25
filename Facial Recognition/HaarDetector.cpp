@@ -1,15 +1,15 @@
 // $Id$
 // Copyright (c) 2010 by Brian Blonski
-#include "HaarTracker.h"
+#include "HaarDetector.h"
 
 
-const char* const HaarTracker::HAAR_CLASSIFIER_WINDOW = "Haar Classifier";
-const char* const HaarTracker::HAARCASCADE_DIR = "C:\\Program Files (x86)\\OpenCV2.0\\data\\haarcascades\\";
-const char* const HaarTracker::HAARCASCADE_EYE = "haarcascade_eye_tree_eyeglasses.xml";
-const char* const HaarTracker::HAARCASCADE_PROFILE = "haarcascade_profileface.xml";
-const char* const HaarTracker::HAARCASCADE_FRONTALFACE = "haarcascade_frontalface_default.xml";
+const char* const HaarDetector::HAAR_CLASSIFIER_WINDOW = "Haar Classifier";
+const char* const HaarDetector::HAARCASCADE_DIR = "C:\\Program Files (x86)\\OpenCV2.0\\data\\haarcascades\\";
+const char* const HaarDetector::HAARCASCADE_EYE = "haarcascade_eye_tree_eyeglasses.xml";
+const char* const HaarDetector::HAARCASCADE_PROFILE = "haarcascade_profileface.xml";
+const char* const HaarDetector::HAARCASCADE_FRONTALFACE = "haarcascade_frontalface_default.xml";
 
-HaarTracker::HaarTracker()
+HaarDetector::HaarDetector()
 {
     char cascadeName[100];
     // Determine Haar cascade location
@@ -22,13 +22,13 @@ HaarTracker::HaarTracker()
     nestedCascade = (CvHaarClassifierCascade*)cvLoad(cascadeName);
     init();
 }
-HaarTracker::HaarTracker(CvHaarClassifierCascade *pCascade, CvHaarClassifierCascade* pNestedCascade) : 
+HaarDetector::HaarDetector(CvHaarClassifierCascade *pCascade, CvHaarClassifierCascade* pNestedCascade) : 
 cascade(pCascade), nestedCascade( pNestedCascade)
 {
     init();
 }
 
-HaarTracker::~HaarTracker(void)
+HaarDetector::~HaarDetector(void)
 {
     //cvDestroyWindow(HAAR_CLASSIFIER_WINDOW);
     cvReleaseHaarClassifierCascade(&cascade);
@@ -36,7 +36,7 @@ HaarTracker::~HaarTracker(void)
 
 // Initializes class
 void
-HaarTracker::init()
+HaarDetector::init()
 {
     //cvNamedWindow(HAAR_CLASSIFIER_WINDOW, CV_WINDOW_AUTOSIZE);
     util = new Utils(200, 200);
@@ -45,7 +45,7 @@ HaarTracker::init()
 
 // Detects the location of the face using a haar cascade classifier
 CvRect*
-HaarTracker::detect(const IplImage* frame)
+HaarDetector::detect(const IplImage* frame)
 {
     CvRect* r = new CvRect();
     if(!image)
@@ -140,7 +140,7 @@ HaarTracker::detect(const IplImage* frame)
 
 // Returns an array of points for the locations of the subfeatures.
 vector<CvPoint>
-HaarTracker::getPoints()
+HaarDetector::getPoints()
 {
     return points;
 }

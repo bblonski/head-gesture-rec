@@ -1,11 +1,11 @@
 // $Id$
 // Copyright (c) 2010 by Brian Blonski
-#include "SkinTracker.h"
+#include "SkinDetector.h"
 #include "OpenCVIncludes.h"
 
-const char* const SkinTracker::SKIN_FILTER_WINDOW = "Skin Filter";
+const char* const SkinDetector::SKIN_FILTER_WINDOW = "Skin Filter";
 
-SkinTracker::SkinTracker(void) : vmin(65), vmax(256), smin(0), hdims(16),
+SkinDetector::SkinDetector(void) : vmin(65), vmax(256), smin(0), hdims(16),
 backprojectMode(0), util(new Utils(200, 200)), image(0), hsv(0), hue(0),
 mask(0), backproject(0), histImage(0), trackObject(0), showHist(0), selectObject(0)
 {
@@ -14,10 +14,10 @@ mask(0), backproject(0), histImage(0), trackObject(0), showHist(0), selectObject
     cvCreateTrackbar( "Vmax", SKIN_FILTER_WINDOW, &vmax, 256, 0 );
     cvCreateTrackbar( "Smin", SKIN_FILTER_WINDOW, &smin, 256, 0 );
     cvSetMouseCallback(SKIN_FILTER_WINDOW,
-        &SkinTracker::mouseCallback, this );
+        &SkinDetector::mouseCallback, this );
 }
 
-SkinTracker::~SkinTracker(void)
+SkinDetector::~SkinDetector(void)
 {
     if(image)
     {
@@ -36,13 +36,13 @@ SkinTracker::~SkinTracker(void)
 * mouseCallback sets the onMouse event as a mouse callback function.
 */
 void
-SkinTracker::mouseCallback(int event, int x, int y, int flags, void *param)
+SkinDetector::mouseCallback(int event, int x, int y, int flags, void *param)
 {
-    ((SkinTracker*)param)->onMouse(event, x, y);
+    ((SkinDetector*)param)->onMouse(event, x, y);
 }
 
 void
-SkinTracker::select(CvRect* r)
+SkinDetector::select(CvRect* r)
 {
     if(r != NULL)
         selectFrame = *r;
@@ -51,7 +51,7 @@ SkinTracker::select(CvRect* r)
 }
 
 void
-SkinTracker::onMouse(int event, int x, int y)
+SkinDetector::onMouse(int event, int x, int y)
 {
     if( !image )
         return;
@@ -91,7 +91,7 @@ SkinTracker::onMouse(int event, int x, int y)
 }
 
 void
-SkinTracker::init(const IplImage *frame)
+SkinDetector::init(const IplImage *frame)
 {
     float hranges_arr[] = {0,180};
     float *hranges = hranges_arr;
@@ -109,7 +109,7 @@ SkinTracker::init(const IplImage *frame)
 * based off OpenCV sample code 
 */
 CvRect* 
-SkinTracker::detect(const IplImage* frame)
+SkinDetector::detect(const IplImage* frame)
 {
     if( !image )
     {
@@ -148,7 +148,7 @@ SkinTracker::detect(const IplImage* frame)
 }
 
 void
-SkinTracker::updateHueImage()
+SkinDetector::updateHueImage()
 {
     // Convert to HSV color model
     cvCvtColor( image, hsv, CV_BGR2HSV );
@@ -162,7 +162,7 @@ SkinTracker::updateHueImage()
 }
 
 void 
-SkinTracker::track()
+SkinDetector::track()
 {
     CvConnectedComp trackComp;
     // Create a new hue image
@@ -189,7 +189,7 @@ SkinTracker::track()
 }
 
 void 
-SkinTracker::startTracking(IplImage * pImg)
+SkinDetector::startTracking(IplImage * pImg)
 {
     float maxVal = 0.f;
 
@@ -213,7 +213,7 @@ SkinTracker::startTracking(IplImage * pImg)
 
 /// Shrinks tracking frame by specified amount
 void 
-SkinTracker::shrinkTrackingBox(const int amount)
+SkinDetector::shrinkTrackingBox(const int amount)
 {
     // shrink tracking box so it doesn't grow
     if(min(trackFrame.height, trackFrame.width) > amount)

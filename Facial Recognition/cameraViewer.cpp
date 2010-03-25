@@ -27,8 +27,8 @@ int main(int argc, char* argv[])
     //receiver.unhookEvent(&ev);
 
     // Init new trackers
-    HaarTracker* haar = new HaarTracker();
-    //SkinTracker* skin = new SkinTracker();
+    HaarDetector* haar = new HaarDetector();
+    //SkinDetector* skin = new SkinDetector();
     LKTracker* lk = new LKTracker();
     MotionTracker* motionTracker = new MotionTracker();
     GestureTracker* gestureTracker = new GestureTracker();

@@ -197,7 +197,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\HaarTracker.cpp"
+				RelativePath=".\HaarDetector.cpp"
 				>
 			</File>
 			<File
@@ -209,11 +209,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SkinTracker.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tracker.cpp"
+				RelativePath=".\SkinDetector.cpp"
 				>
 			</File>
 			<File
@@ -231,6 +227,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Capture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Detector.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GestureEvent.h"
 				>
 			</File>
@@ -239,7 +243,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\HaarTracker.h"
+				RelativePath=".\HaarDetector.h"
 				>
 			</File>
 			<File
@@ -259,11 +263,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SkinTracker.h"
+				RelativePath=".\SkinDetector.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Tracker.h"
+				RelativePath=".\tracker.h"
 				>
 			</File>
 			<File

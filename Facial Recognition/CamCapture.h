@@ -4,9 +4,10 @@
 #define _CAM_CAPTURE_H
 
 #include "OpenCVIncludes.h"
+#include "Capture.h"
 #include "Utils.h"
 
-class CamCapture
+class CamCapture : Capture
 {
 private:
     static const char* const MAIN_WINDOW;
