@@ -259,15 +259,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PointTracker.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
 				RelativePath=".\SkinDetector.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tracker.h"
 				>
 			</File>
 			<File

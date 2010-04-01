@@ -6,9 +6,9 @@
 #define LK_TRACKER_WINDOW				"LK TRACKER"
 
 #include "OpenCVIncludes.h"
-#include "Tracker.h"
+#include "PointTracker.h"
 
-class LKTracker
+class LKTracker : PointTracker
 {
 private:
 	//Constants
@@ -28,7 +28,7 @@ private:
 	void onMouse(int event, int x, int y);
 
 public:
-	CvRect* detect(const IplImage *image);
+	void detect(const IplImage *image);
 	void setPoint(int x, int y);
 	static void mouseCallback(int event, int x, int y, int flags, void* param);
 	void select(CvRect *r);

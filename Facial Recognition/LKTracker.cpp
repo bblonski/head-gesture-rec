@@ -178,7 +178,7 @@ LKTracker::autoFindPoints()
 }
 
 // Detect features on a new frame
-CvRect*
+void
 LKTracker::detect(const IplImage *frame)
 {
     if(!image)
@@ -220,7 +220,6 @@ LKTracker::detect(const IplImage *frame)
     CV_SWAP( points[0], points[1], swapPoints );
     initialized = true;
     cvShowImage( LK_TRACKER_WINDOW, image );
-    return NULL;
 }
 
 CvPoint2D32f**
