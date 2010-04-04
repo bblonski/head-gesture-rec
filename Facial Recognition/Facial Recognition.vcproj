@@ -189,15 +189,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\cameraViewer.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\GestureTracker.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\HaarDetector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Launcher.cpp"
 				>
 			</File>
 			<File
@@ -244,6 +244,10 @@
 			</File>
 			<File
 				RelativePath=".\HaarDetector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Launcher.h"
 				>
 			</File>
 			<File

@@ -12,20 +12,20 @@
 
 #include "resource.h"
 #include "GestureEvent.h"
+#include "Launcher.h"
 
 //C:\Program Files (x86)\OpenCV\data\haarcascades\haarcascade_frontalface_alt.xml
 
 // Entry Point for Program
-int main(int argc, char* argv[])
+//int main(int argc, char* argv[])
+int 
+Launcher::run()
 {
     // Create new camera capture
     Capture *cam = new CamCapture();
     GestureReceiver receiver;
     GestureEvent ev;
     receiver.hookEvent(&ev);
-
-    //receiver.unhookEvent(&ev);
-
     // Init new trackers
     Detector* haar = new HaarDetector();
     //SkinDetector* skin = new SkinDetector();
@@ -71,9 +71,15 @@ int main(int argc, char* argv[])
             printf("SHAKE DETECTED!\n");
 
         cvReleaseImage(&tmp);
-        //if(r)
-        //    free(r);
-        //r = NULL;
+
+        // wait for esc key
+        char c = cvWaitKey(1);
+        if( (char) c == 27 )
+        {
+            // cleanup
+            break;
+        }
+        cvReleaseImage(&tmp);
         //}catch (...)
         //{
         //	cerr << "Error";
@@ -81,7 +87,8 @@ int main(int argc, char* argv[])
     }
 
     receiver.unhookEvent(&ev);
-
+    if(r)
+        free(r);
     delete haar;
     //delete skin;
     delete cam;
@@ -89,6 +96,13 @@ int main(int argc, char* argv[])
     delete motionTracker;
     delete gestureTracker;
     return 0;
+}
+
+int main(int argc, char* argv[])
+{
+    Launcher* launch = new Launcher();
+    return launch->run();
+    delete launch;
 }
 
 #ifdef _EiC

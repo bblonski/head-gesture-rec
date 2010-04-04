@@ -43,8 +43,9 @@ IplImage* CamCapture::getFrame()
 {
     IplImage* frame = 0; // Original frame taken from camera
     IplImage* image = 0; // Copy of image from the frame taken from the camera
-    int c; // key press
 
+    if(frame)
+        cvReleaseImage(&frame);
     // grab the frame
     frame = cvQueryFrame( capture );
     if( !frame )
@@ -65,16 +66,6 @@ IplImage* CamCapture::getFrame()
     // copy frame contents into image
 
     //cvCopy(frame, image, 0);
-
     cvCvtColor( frame, image, CV_BGR2GRAY );
-
-    // wait for esc key
-    c = cvWaitKey(1);
-    if( (char) c == 27 )
-    {
-        // cleanup
-        cvReleaseImage(&image);
-        return NULL;
-    }
     return image;
 }
