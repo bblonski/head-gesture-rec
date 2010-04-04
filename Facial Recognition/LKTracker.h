@@ -8,7 +8,7 @@
 #include "OpenCVIncludes.h"
 #include "PointTracker.h"
 
-class LKTracker : PointTracker
+class LKTracker : public PointTracker
 {
 private:
 	//Constants

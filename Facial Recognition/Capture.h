@@ -11,6 +11,7 @@ class Capture
 
 public:
 	virtual IplImage* getFrame() = 0;
+    virtual ~Capture(void){};
 };
 
 #endif

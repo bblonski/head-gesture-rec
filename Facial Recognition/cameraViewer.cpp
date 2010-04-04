@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
     // Init new trackers
     Detector* haar = new HaarDetector();
     //SkinDetector* skin = new SkinDetector();
-    LKTracker* lk = new LKTracker();
+    PointTracker* lk = new LKTracker();
     MotionTracker* motionTracker = new MotionTracker();
     GestureTracker* gestureTracker = new GestureTracker();
 

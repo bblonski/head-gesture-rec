@@ -11,6 +11,7 @@ class Detector
 public:
 	virtual CvRect* detect(const IplImage *image) = 0;
 	virtual void select(CvRect* r) = 0;
+    virtual ~Detector(){};
 };
 
 #endif

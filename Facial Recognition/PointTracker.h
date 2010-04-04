@@ -13,6 +13,7 @@ public:
 	virtual void select(CvRect* r) = 0;
 	virtual int getNumPoints() = 0;
 	virtual CvPoint2D32f** getPoints() = 0;
+    virtual ~PointTracker(){};
 };
 
 #endif
