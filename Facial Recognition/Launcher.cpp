@@ -49,10 +49,6 @@ Launcher::run()
         if(!r)
         {
             r = haar->detect(tmp);
-            /*   if(!r){
-            Sleep(1000);
-            continue;
-            }*/
         }
 
         lk->detect(tmp);
@@ -62,10 +58,10 @@ Launcher::run()
             lk->select(r);
             runonce = false;
         }
-        HeadGesture gesture = gestureTracker->track(motionTracker->detect(lk->getPoints(), lk->getNumPoints()));
+        HeadGesture gesture = gestureTracker->track(lk->getPoints(), lk->getNumPoints());
         if(gesture == nod){
             printf("NOD DETECTED!\n");
-            __raise ev.gEvent(1);
+            __raise ev.gEvent();
         }
         else if(gesture == shake)
             printf("SHAKE DETECTED!\n");
@@ -76,7 +72,7 @@ Launcher::run()
         char c = cvWaitKey(1);
         if( (char) c == 27 )
         {
-            // cleanup
+            // exit loop
             break;
         }
         cvReleaseImage(&tmp);
@@ -86,6 +82,7 @@ Launcher::run()
         //}
     }
 
+    // cleanup
     receiver.unhookEvent(&ev);
     if(r)
         free(r);

@@ -4,19 +4,22 @@
 #define _GESTURE_EVENT_H
 
 #include <stdio.h>
+#include <windows.h>
 
 [event_source(native)]
 class GestureEvent
 {
 public:
-    __event void gEvent(int i);
+    __event void gEvent(void);
 };
 
 [event_receiver(native)]
 class GestureReceiver {
 public:
-   void gHandler(int i) {
+   virtual void gHandler() {
       printf("Event Triggered\n");
+      //LPCWSTR note = "Nod Triggered";
+      MessageBox(NULL, L"Nod Triggered", L"Nod", NULL);
    }
 
    void hookEvent(GestureEvent* source) {

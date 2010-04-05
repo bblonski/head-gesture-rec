@@ -2,6 +2,7 @@
 
 GestureTracker::GestureTracker(void) : gestureCount(0), state(none)
 {
+    motionTracker = new MotionTracker();
 }
 
 GestureTracker::~GestureTracker(void)
@@ -9,8 +10,9 @@ GestureTracker::~GestureTracker(void)
 }
 
 HeadGesture
-GestureTracker::track(HeadMotion motion)
+GestureTracker::track(CvPoint2D32f** points, int numPoints)
 {
+    HeadMotion motion = motionTracker->detect(points, numPoints);
     if(gestureCount > GESTURE_TIMEOUT || state == nod || state == shake)
     {
         state = none;

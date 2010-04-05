@@ -14,10 +14,11 @@ private:
     int gestureCount;
     static const int GESTURE_TIMEOUT = 15;
     HeadGesture state;
+    MotionTracker* motionTracker;
 public:
     GestureTracker(void);
     ~GestureTracker(void);
-    HeadGesture track(HeadMotion motion);
+    HeadGesture track(CvPoint2D32f** points, int numPoints);
 };
 
 #endif
