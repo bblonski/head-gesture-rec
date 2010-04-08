@@ -34,14 +34,7 @@ public:
 [event_receiver(native)]
 class NodReceiver : public GestureReceiver {
 public:
-    static void Thread( void* pParams )
-    {
-        MessageBox(NULL, L"Nod Triggered", L"Nod", NULL);
-    }
-
     virtual void gHandler() {
-        uintptr_t hand = _beginthread( &NodReceiver::Thread, 0, NULL );   
-        Sleep(10);
         HWND dialog = FindWindow(L"#32770", L"Nod");
         EndDialog(dialog, 0);
     }
@@ -50,13 +43,9 @@ public:
 [event_receiver(native)]
 class ShakeReceiver : public GestureReceiver {
 public:
-    static void Thread( void* pParams )
-    {
-        MessageBox(NULL, L"Shake Triggered", L"Shake", NULL);
-    }
-
     virtual void gHandler() {
-        _beginthread( &ShakeReceiver::Thread, 0, NULL );   
+        HWND dialog = FindWindow(L"#32770", L"Shake");
+        EndDialog(dialog, 0); 
     }
 };
 

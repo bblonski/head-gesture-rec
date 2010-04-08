@@ -13,8 +13,24 @@
 #include "resource.h"
 #include "GestureEvent.h"
 #include "Launcher.h"
+#include <time.h>
 
 //C:\Program Files (x86)\OpenCV\data\haarcascades\haarcascade_frontalface_alt.xml
+
+static int timer;
+
+static void Thread( void* pParams )
+{
+    srand((int)time(NULL));
+    Sleep(*((int*)pParams));
+    if(rand() % 2)
+        MessageBox(NULL, L"Please nod your head", L"Nod", NULL);
+    else
+        MessageBox(NULL, L"Please shake your head", L"Shake", NULL);
+    timer = (10 + rand() % 5) * 1000;
+    uintptr_t hand = _beginthread( Thread, 0, &timer );
+    _endthread();
+}
 
 // Entry Point for Program
 //int main(int argc, char* argv[])
@@ -23,15 +39,21 @@ Launcher::run()
 {
     // Create new camera capture
     Capture *cam = new CamCapture();
-    NodReceiver receiver;
-    GestureEvent ev;
-    receiver.hookEvent(&ev);
+    NodReceiver nreceiver;
+    ShakeReceiver sreceiver;
+    GestureEvent nodEvent;
+    GestureEvent shakeEvent;
+    nreceiver.hookEvent(&nodEvent);
+    sreceiver.hookEvent(&shakeEvent);
     // Init new trackers
     Detector* haar = new HaarDetector();
     //SkinDetector* skin = new SkinDetector();
     PointTracker* lk = new LKTracker();
     MotionTracker* motionTracker = new MotionTracker();
     GestureTracker* gestureTracker = new GestureTracker();
+    srand((int)time(NULL));
+    timer = (30 + rand() % 15) * 1000;
+    uintptr_t hand = _beginthread( Thread, 0, &timer );   
 
     CvRect* r = NULL;
     int runonce = true;
@@ -61,10 +83,13 @@ Launcher::run()
         HeadGesture gesture = gestureTracker->track(lk->getPoints(), lk->getNumPoints());
         if(gesture == nod){
             printf("NOD DETECTED!\n");
-            __raise ev.gEvent();
+            __raise nodEvent.gEvent();
         }
         else if(gesture == shake)
+        {
             printf("SHAKE DETECTED!\n");
+            __raise shakeEvent.gEvent();
+        }
 
         cvReleaseImage(&tmp);
 
@@ -83,7 +108,8 @@ Launcher::run()
     }
 
     // cleanup
-    receiver.unhookEvent(&ev);
+    nreceiver.unhookEvent(&nodEvent);
+    sreceiver.unhookEvent(&shakeEvent);
     if(r)
         free(r);
     delete haar;
