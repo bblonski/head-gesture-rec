@@ -90,5 +90,11 @@ void Utils::noCamMsg()
 }
 
 void Utils::log(char* message){
-    logStream << message << endl;
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[21];
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    strftime(buffer, 100, "[%x %X] ", timeinfo);
+    logStream << buffer <<  message << endl;
 }

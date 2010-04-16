@@ -6,6 +6,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <fstream>
+#include <time.h>
 #include "OpenCVIncludes.h"
 
 class Utils

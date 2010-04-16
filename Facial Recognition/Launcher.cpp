@@ -23,10 +23,12 @@ static void Thread( void* pParams )
 {
     srand((int)time(NULL));
     Sleep(*((int*)pParams));
-    if(rand() % 2)
+    if(rand() % 2){
         MessageBox(NULL, L"Please nod your head", L"Nod", NULL);
-    else
+    }
+    else{
         MessageBox(NULL, L"Please shake your head", L"Shake", NULL);
+    }
     timer = (10 + rand() % 5) * 1000;
     uintptr_t hand = _beginthread( Thread, 0, &timer );
     _endthread();
@@ -88,11 +90,13 @@ Launcher::run()
         HeadGesture gesture = gestureTracker->track(lk->getPoints(), lk->getNumPoints());
         if(gesture == nod){
             printf("NOD DETECTED!\n");
+            utils->log("Nod");
             __raise nodEvent.gEvent();
         }
         else if(gesture == shake)
         {
             printf("SHAKE DETECTED!\n");
+            utils->log("Shake");
             __raise shakeEvent.gEvent();
         }
 
