@@ -2,24 +2,31 @@
 // Copyright (c) 2010 by Brian Blonski
 #include "Utils.h"
 
-Utils::Utils(int xCoord, int yCoord) : xCoordLocation(xCoord), yCoordLocation(yCoord)
+const char* const Utils::LOGFILE = "log.txt";
+
+Utils::Utils(char* logDir)
 {
+    char logfile[100];
+    strcpy(logfile, logDir);
+    strcpy(logfile, "/");
+    strcpy(logfile, Utils::LOGFILE);
+    logStream.open(logfile);
 }
 
 Utils::Utils(void)
 {
-    Utils::Utils(20, 200);
+    Utils::Utils(".");
 }
 
 Utils::~Utils(void)
 {
+    logStream.close();
 }
 
 /* prints the x and y coordinates */
-IplImage* Utils::printMsg(IplImage *image, char* string)
+IplImage* Utils::printMsg(IplImage *image, char* string, CvPoint pt)
 {
     CvFont font;
-    CvPoint pt = cvPoint( xCoordLocation, yCoordLocation );
     //initialize the font
     cvInitFont( &font, CV_FONT_HERSHEY_COMPLEX,
         0.3, 0.3, 0, 1, CV_AA);
@@ -28,14 +35,13 @@ IplImage* Utils::printMsg(IplImage *image, char* string)
     return image;
 }
 
-int _TextOffset = 10;
 /* prints the x and y coordinates */
-IplImage* Utils::printCoordinates(IplImage *image, double x, double y)
+IplImage* Utils::printCoordinates(IplImage *image, double x, double y, CvPoint pt)
 {
     CvFont font;
+    int _TextOffset = 10;
     char *xCoord = (char*)malloc(20);
     char *yCoord = (char*)malloc(20);
-    CvPoint pt = cvPoint( xCoordLocation, yCoordLocation );
     //initialize the font
 
     cvInitFont( &font, CV_FONT_HERSHEY_COMPLEX,
@@ -45,7 +51,7 @@ IplImage* Utils::printCoordinates(IplImage *image, double x, double y)
     sprintf(yCoord, "y = %g", y);
     //write text to image
     cvPutText(image, xCoord, pt, &font, CV_RGB( 250, 250, 250) );
-    pt = cvPoint( xCoordLocation, yCoordLocation + _TextOffset);
+    pt = cvPoint( pt.x, pt.y + _TextOffset);
     cvPutText(image, yCoord, pt, &font, CV_RGB(250, 250, 250) );
     free(xCoord);
     free(yCoord);
@@ -81,4 +87,8 @@ void Utils::noCamMsg()
     cvReleaseImage(&msg);
     cvDestroyWindow("Error");
     exit(-1);
+}
+
+void Utils::log(char* message){
+    logStream << message << endl;
 }

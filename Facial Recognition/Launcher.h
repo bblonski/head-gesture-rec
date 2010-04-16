@@ -5,16 +5,23 @@
 
 class Launcher
 {
+private:
+    char* log;
+    Capture* cam;
+    NodReceiver nreceiver;
+    ShakeReceiver sreceiver;
+    GestureEvent nodEvent;
+    GestureEvent shakeEvent;
+    Detector* haar;
+    PointTracker* lk;
+    MotionTracker* motionTracker;
+    GestureTracker* gestureTracker;
+    Utils* utils;
 public:
     int run(void);
-
-    Launcher(void)
-    {
-    }
-
-    ~Launcher(void)
-    {
-    }
+    Launcher(char*);
+    Launcher(void);
+    ~Launcher(void);
 };
 
 #endif

@@ -39,7 +39,6 @@ void
 HaarDetector::init()
 {
     //cvNamedWindow(HAAR_CLASSIFIER_WINDOW, CV_WINDOW_AUTOSIZE);
-    util = new Utils(200, 200);
     image = NULL;
 }
 
@@ -67,7 +66,8 @@ HaarDetector::detect(const IplImage* frame)
     // Check whether the cascade has loaded successfully. Else report and error and quit
     if( !cascade )
     {
-        image = util->printMsg(image, "ERROR: Could not load classifier cascade\n" );
+        image = Utils::printMsg(image, "ERROR: Could not load classifier cascade\n", 
+                cvPoint(20, 200) );
         throw -1;
     }
 
@@ -99,7 +99,7 @@ HaarDetector::detect(const IplImage* frame)
             pt2.x = (r->x+r->width);
             pt1.y = r->y;
             pt2.y = (r->y+r->height);
-            frame = util->printCoordinates(image, r->x + 0.5*r->width, r->y + 0.5*r->height);
+            frame = Utils::printCoordinates(image, r->x + 0.5*r->width, r->y + 0.5*r->height, cvPoint(20,200));
 
             // Draw the rectangle in the input image
             cvRectangle( image, pt1, pt2, CV_RGB(255,0,0), 3, 8, 0 );

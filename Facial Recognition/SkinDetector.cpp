@@ -6,8 +6,8 @@
 const char* const SkinDetector::SKIN_FILTER_WINDOW = "Skin Filter";
 
 SkinDetector::SkinDetector(void) : vmin(65), vmax(256), smin(0), hdims(16),
-backprojectMode(0), util(new Utils(200, 200)), image(0), hsv(0), hue(0),
-mask(0), backproject(0), histImage(0), trackObject(0), showHist(0), selectObject(0)
+backprojectMode(0), image(0), hsv(0), hue(0), mask(0), backproject(0), 
+histImage(0), trackObject(0), showHist(0), selectObject(0)
 {
     cvNamedWindow(SKIN_FILTER_WINDOW, 1 );
     cvCreateTrackbar( "Vmin", SKIN_FILTER_WINDOW, &vmin, 256, 0 );
@@ -185,7 +185,7 @@ SkinDetector::track()
         trackBox.angle = -trackBox.angle;
     //draw ellipse around color area
     cvEllipseBox( image, trackBox, CV_RGB(255,0,0), 3, CV_AA, 0 );
-    image = util->printCoordinates(image, trackFrame.x + 0.5*trackFrame.width, trackFrame.y + 0.5*trackFrame.height);
+    image = Utils::printCoordinates(image, trackFrame.x + 0.5*trackFrame.width, trackFrame.y + 0.5*trackFrame.height, cvPoint(20,200));
 }
 
 void 

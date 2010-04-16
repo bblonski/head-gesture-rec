@@ -3,20 +3,25 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <fstream>
 #include "OpenCVIncludes.h"
 
 class Utils
 {
 private:
-	int xCoordLocation;
-	int yCoordLocation;
+    char* logDir;
+    static const char* const LOGFILE;
+    ofstream logStream;
 public:
-	Utils(int xCoord, int yCoord);
+	Utils(char* logDir);
 	Utils(void);
 	~Utils(void);
-	IplImage *printCoordinates(IplImage *image, double x, double y);
-	IplImage *printMsg(IplImage *image, char* string);
+	static IplImage *printCoordinates(IplImage *image, double x, double y, CvPoint pt);
+    static IplImage *printMsg(IplImage *image, char* string, CvPoint pt);
 	void noCamMsg(void);
+    void log(char*);
 };
 
 #endif

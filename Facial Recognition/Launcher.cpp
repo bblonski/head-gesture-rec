@@ -6,8 +6,8 @@
 * Description: Tracks head gestures with multiple feature tracking techniques.
 *
 * @author Brian Blonski
-* @version 1.$Rev: 47 $
-* @date $Date: 2009-12-07 01:37:27 -0800 (Mon, 07 Dec 2009) $
+* @version 1.$Rev$
+* @date $Date$
 **/
 
 #include "resource.h"
@@ -32,32 +32,37 @@ static void Thread( void* pParams )
     _endthread();
 }
 
-// Entry Point for Program
-//int main(int argc, char* argv[])
-int 
-Launcher::run()
+Launcher::Launcher(char *logDir)
 {
     // Create new camera capture
-    Capture *cam = new CamCapture();
-    NodReceiver nreceiver;
-    ShakeReceiver sreceiver;
-    GestureEvent nodEvent;
-    GestureEvent shakeEvent;
+    cam = new CamCapture();
+    nreceiver;
+    sreceiver;
+    nodEvent;
+    shakeEvent;
     nreceiver.hookEvent(&nodEvent);
     sreceiver.hookEvent(&shakeEvent);
     // Init new trackers
-    Detector* haar = new HaarDetector();
+    haar = new HaarDetector();
     //SkinDetector* skin = new SkinDetector();
-    PointTracker* lk = new LKTracker();
-    MotionTracker* motionTracker = new MotionTracker();
-    GestureTracker* gestureTracker = new GestureTracker();
+    lk = new LKTracker();
+    motionTracker = new MotionTracker();
+    gestureTracker = new GestureTracker();
     srand((int)time(NULL));
-    timer = (30 + rand() % 15) * 1000;
-    uintptr_t hand = _beginthread( Thread, 0, &timer );   
+    utils = new Utils(logDir);
+}
 
+Launcher::~Launcher(void)
+{
+}
+
+int 
+Launcher::run()
+{
+    timer = (30 + rand() % 15) * 1000;
+    uintptr_t hand = _beginthread( Thread, 0, &timer );
     CvRect* r = NULL;
     int runonce = true;
-
     // Tracking loop
     while(true)
     {
@@ -123,7 +128,7 @@ Launcher::run()
 
 int main(int argc, char* argv[])
 {
-    Launcher* launch = new Launcher();
+    Launcher* launch = new Launcher((argv[0]) ? argv[0] : NULL);
     return launch->run();
     delete launch;
 }
