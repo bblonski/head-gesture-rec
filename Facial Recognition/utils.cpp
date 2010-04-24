@@ -6,21 +6,14 @@ const char* const Utils::LOGFILE = "log.txt";
 
 Utils::Utils(char* logDir)
 {
-    char logfile[100];
-    strcpy(logfile, logDir);
-    strcpy(logfile, "/");
-    strcpy(logfile, Utils::LOGFILE);
-    logStream.open(logfile);
 }
 
 Utils::Utils(void)
 {
-    Utils::Utils(".");
 }
 
 Utils::~Utils(void)
 {
-    logStream.close();
 }
 
 /* prints the x and y coordinates */
@@ -87,14 +80,4 @@ void Utils::noCamMsg()
     cvReleaseImage(&msg);
     cvDestroyWindow("Error");
     exit(-1);
-}
-
-void Utils::log(char* message){
-    time_t rawtime;
-    struct tm * timeinfo;
-    char buffer[21];
-    time ( &rawtime );
-    timeinfo = localtime ( &rawtime );
-    strftime(buffer, 100, "[%x %X] ", timeinfo);
-    logStream << buffer <<  message << endl;
 }

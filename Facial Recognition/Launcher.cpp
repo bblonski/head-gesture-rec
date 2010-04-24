@@ -9,25 +9,43 @@
 * @version 1.$Rev$
 * @date $Date$
 **/
-
+#include <time.h>
+#include <fstream>
 #include "resource.h"
 #include "GestureEvent.h"
+#include "Utils.h"
 #include "Launcher.h"
-#include <time.h>
 
 //C:\Program Files (x86)\OpenCV\data\haarcascades\haarcascade_frontalface_alt.xml
 
 static int timer;
+
+static void Log(char* message){
+    ofstream stream;
+    stream.open("log.txt", ios::app);
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[21];
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    strftime(buffer, 100, "[%x %X] ", timeinfo);
+    stream << buffer <<  message << endl;
+    stream.close();
+}
 
 static void Thread( void* pParams )
 {
     srand((int)time(NULL));
     Sleep(*((int*)pParams));
     if(rand() % 2){
-        MessageBox(NULL, L"Please nod your head", L"Nod", NULL);
+        Log("Nod expected");
+        while( MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK);
+        Log("Nod received");
     }
     else{
-        MessageBox(NULL, L"Please shake your head", L"Shake", NULL);
+        Log("Shake expected");
+        while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL) == IDOK);
+        Log("Shake received");
     }
     timer = (10 + rand() % 5) * 1000;
     uintptr_t hand = _beginthread( Thread, 0, &timer );
@@ -65,6 +83,7 @@ Launcher::run()
     uintptr_t hand = _beginthread( Thread, 0, &timer );
     CvRect* r = NULL;
     int runonce = true;
+    Log("starting...");
     // Tracking loop
     while(true)
     {
@@ -90,13 +109,13 @@ Launcher::run()
         HeadGesture gesture = gestureTracker->track(lk->getPoints(), lk->getNumPoints());
         if(gesture == nod){
             printf("NOD DETECTED!\n");
-            utils->log("Nod");
+            Log("Nod");
             __raise nodEvent.gEvent();
         }
         else if(gesture == shake)
         {
             printf("SHAKE DETECTED!\n");
-            utils->log("Shake");
+            Log("Shake");
             __raise shakeEvent.gEvent();
         }
 
@@ -127,6 +146,7 @@ Launcher::run()
     delete lk;
     delete motionTracker;
     delete gestureTracker;
+    Log("End");
     return 0;
 }
 

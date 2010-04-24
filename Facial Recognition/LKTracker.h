@@ -12,7 +12,7 @@ class LKTracker : public PointTracker
 {
 private:
 	//Constants
-	static const int WIN_SIZE = 10, MAX_COUNT = 10;
+	static const int WIN_SIZE = 5, MAX_COUNT = 25;
 	//Variables
 	IplImage *image, *grey, *prevGrey, *pyramid, *prevPyramid, *swapImage;
 	CvPoint2D32f* points[2], *swapPoints;

@@ -3,7 +3,8 @@
 #ifndef _FACE_RECOGNITION_H
 #define _FACE_RECOGNITION_H
 
-#include <iostream>
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <exception>
 #include "HaarDetector.h"
 #include "SkinDetector.h"

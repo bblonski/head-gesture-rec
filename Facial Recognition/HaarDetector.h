@@ -5,8 +5,6 @@
 
 #include "Detector.h"
 #include "Utils.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 class HaarDetector : public Detector
 {
@@ -33,6 +31,5 @@ public:
 	CvRect* detect(const IplImage *frame);
 	void select(CvRect* r){};	
 	vector<CvPoint> getPoints(void);
-
 };
 #endif
