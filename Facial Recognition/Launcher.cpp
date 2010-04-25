@@ -155,7 +155,8 @@ Launcher::run()
     return 0;
 }
 
-int main(int argc, char* argv[])
+int 
+main(int argc, char* argv[])
 {
     Launcher* launch = new Launcher((argv[0]) ? argv[0] : NULL);
     return launch->run();

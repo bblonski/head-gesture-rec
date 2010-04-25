@@ -24,6 +24,7 @@ HaarDetector::HaarDetector()
     nestedCascade = (CvHaarClassifierCascade*)cvLoad(cascadeName);
     init();
 }
+
 HaarDetector::HaarDetector(CvHaarClassifierCascade *pCascade, CvHaarClassifierCascade* pNestedCascade) : 
 cascade(pCascade), nestedCascade( pNestedCascade)
 {

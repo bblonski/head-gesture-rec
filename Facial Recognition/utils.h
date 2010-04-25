@@ -17,7 +17,6 @@ public:
 	~Utils(void);
 	static IplImage *printCoordinates(IplImage *image, double x, double y, CvPoint pt);
     static IplImage *printMsg(IplImage *image, char* string, CvPoint pt);
-	void noCamMsg(void);
 };
 
 #endif

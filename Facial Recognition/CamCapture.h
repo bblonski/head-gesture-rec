@@ -14,11 +14,11 @@ private:
     static const char* const VIDEO_FILE_NAME;
     CvVideoWriter* writer;
 	CvCapture* capture;
-	Utils* util;
 public:
 	CamCapture(void);
 	~CamCapture(void);
 	IplImage* getFrame();
+    void noCamMsg();
 };
 
 #endif

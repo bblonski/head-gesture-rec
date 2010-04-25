@@ -8,21 +8,20 @@ const char* const CamCapture::MAIN_WINDOW = "Main";
 const char* const CamCapture::VIDEO_FILE_NAME = "test.avi";
 
 /// Constructor for CamCapture
-CamCapture::CamCapture(void) : writer(NULL), util(new Utils()), 
+CamCapture::CamCapture(void) : writer(NULL), 
 capture(cvCaptureFromCAM(0))
 {
     cvNamedWindow(MAIN_WINDOW, 1);
     // if capture fails, display connect camera message
     if( !capture )
     {
-        util->noCamMsg();
+        noCamMsg();
     }
 }
 
 /// Deconstructor for CamCapture
 CamCapture::~CamCapture(void)
 {
-    delete util;
     if( writer )
         cvReleaseVideoWriter(&writer);
     cvReleaseCapture( &capture );
@@ -39,7 +38,8 @@ Image from the camera.
 Write detailed description for getFrame here.
 
 */
-IplImage* CamCapture::getFrame()
+IplImage* 
+CamCapture::getFrame()
 {
     IplImage* frame = 0; // Original frame taken from camera
     IplImage* image = 0; // Copy of image from the frame taken from the camera
@@ -68,4 +68,36 @@ IplImage* CamCapture::getFrame()
     //cvCopy(frame, image, 0);
     cvCvtColor( frame, image, CV_BGR2GRAY );
     return image;
+}
+
+void 
+CamCapture::noCamMsg()
+{
+    CvFont font;
+    int textX = 20;
+    int textY = 50;
+    int textOffset = 10;
+    CvPoint pt = cvPoint( textX, textY );
+    //320x240 blank image
+    IplImage* msg = cvCreateImage(cvSize(320, 240), 8, 3);
+    //initialize the font
+
+    cvInitFont( &font, CV_FONT_HERSHEY_COMPLEX,
+        0.3, 0.3, 0, 1, CV_AA);
+    //starting point of text
+    cvZero(msg);
+    //write message to the image
+    cvPutText(msg, "No Camera Detected.", pt, &font, CV_RGB( 250, 250, 250) );
+    pt = cvPoint( textX, textY + textOffset);
+    cvPutText(msg, "Please connect camera and restart the program.", pt, &font, CV_RGB(250, 250, 250) );
+    pt = cvPoint( textX, textY + 2*textOffset);
+    cvPutText(msg, "Press any key to exit.", pt, &font, CV_RGB( 250, 250, 250) );
+    //display the image in the container
+    cvNamedWindow( "Error", 1 );
+    cvShowImage("Error", msg);
+    //wait till user presses a key
+    cvWaitKey(0);
+    cvReleaseImage(&msg);
+    cvDestroyWindow("Error");
+    exit(-1);
 }
