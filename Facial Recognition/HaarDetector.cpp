@@ -82,13 +82,13 @@ HaarDetector::detect(const IplImage* frame)
         // There can be more than one face in an image. So create a growable sequence of faces.
         // Detect the objects and store them in the sequence
         CvSeq* faces = cvHaarDetectObjects(
-            image,
-            cascade, 
-            storage,
-            1.1, 
-            2, 
-            CV_HAAR_DO_CANNY_PRUNING,
-            cvSize(80, 80));
+            image, // image to detect objects in
+            cascade, // Haar classifier casacde in internal representation
+            storage, // Memory storage to store the result
+            1.1, // The factor by which the search window is scaled between scans (1.1 = 10%)
+            2, // Minimum number of neighbor rectangles (-1) that make up an object
+            CV_HAAR_DO_CANNY_PRUNING, // Mode of operation
+            cvSize(80, 80)); // Minimum window size
 
         // Loop the number of faces found.
         //for(i = 0; i < (faces ? faces->total : 0); i++)
@@ -99,8 +99,8 @@ HaarDetector::detect(const IplImage* frame)
             memcpy(r, (CvRect*)cvGetSeqElem(faces, i), sizeof(CvRect));
 
             // Find the dimensions of the face,and scale it if necessary
-            pt1.x = r->x;
-            pt2.x = (r->x+r->width);
+            pt1.x = r->x + 10;
+            pt2.x = (r->x+r->width - 20);
             pt1.y = r->y;
             pt2.y = (r->y+r->height);
             frame = Utils::printCoordinates(image, r->x + 0.5*r->width, r->y + 0.5*r->height, cvPoint(20,200));
@@ -108,30 +108,30 @@ HaarDetector::detect(const IplImage* frame)
             // Draw the rectangle in the input image
             cvRectangle(image, pt1, pt2, CV_RGB(255, 0, 0), 3, 8, 0);
         }
-        if (faces->total > 0 && nestedCascade)
-        {
-            CvMat small_img_roi;
-            CvPoint center;
-            CvScalar color = {{0, 255, 0}};
-            int radius;
-            int j;
-            points.clear();
-            cvGetSubRect(frame, &small_img_roi, *r);
-            CvSeq* nestedObjects = cvHaarDetectObjects(&small_img_roi, nestedCascade, storage, 2, 2, CV_HAAR_DO_CANNY_PRUNING);
-            for (j = 0; j < (nestedObjects ? nestedObjects->total : 0); j++)
-            {
-                CvRect *nr = (CvRect*)cvGetSeqElem(nestedObjects, j);
-                center.x = cvRound((r->x + nr->x + nr->width * 0.5));
-                center.y = cvRound((r->y + nr->y + nr->height * 0.5));
-                radius = cvRound((nr->width + nr->height) * 0.25);
-                cvCircle(image, center, radius, CV_RGB(0, 0, 255), 3, 8, 0);
-                points.push_back(center);
-            }
-        }else
-        {
-            free(r);
-            r = NULL;
-        }
+        //if (faces->total > 0 && nestedCascade)
+        //{
+        //    CvMat small_img_roi;
+        //    CvPoint center;
+        //    CvScalar color = {{0, 255, 0}};
+        //    int radius;
+        //    int j;
+        //    points.clear();
+        //    cvGetSubRect(frame, &small_img_roi, *r);
+        //    CvSeq* nestedObjects = cvHaarDetectObjects(&small_img_roi, nestedCascade, storage, 2, 2, CV_HAAR_DO_CANNY_PRUNING);
+        //    for (j = 0; j < (nestedObjects ? nestedObjects->total : 0); j++)
+        //    {
+        //        CvRect *nr = (CvRect*)cvGetSeqElem(nestedObjects, j);
+        //        center.x = cvRound((r->x + nr->x + nr->width * 0.5));
+        //        center.y = cvRound((r->y + nr->y + nr->height * 0.5));
+        //        radius = cvRound((nr->width + nr->height) * 0.25);
+        //        cvCircle(image, center, radius, CV_RGB(0, 0, 255), 3, 8, 0);
+        //        points.push_back(center);
+        //    }
+        //}else
+        //{
+        //    free(r);
+        //    r = NULL;
+        //}
 
     }
 
