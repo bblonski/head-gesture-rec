@@ -34,7 +34,9 @@ IplImage* Utils::printCoordinates(IplImage *image, double x, double y, CvPoint p
     CvFont font;
     int _TextOffset = 10;
     char *xCoord = (char*)malloc(20);
+    if(xCoord == NULL) return NULL;
     char *yCoord = (char*)malloc(20);
+    if(yCoord == NULL) return NULL;
     //initialize the font
 
     cvInitFont( &font, CV_FONT_HERSHEY_COMPLEX,

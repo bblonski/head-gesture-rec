@@ -42,6 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\OpenCV2.0\include\opencv&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
@@ -50,6 +51,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				EnablePREfast="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -90,7 +92,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;..\..\OpenCv\bin\Debug\*.dll&quot; &quot;$(TargetDir)&quot;"
+				CommandLine="copy &quot;..\..\OpenCv\bin\Debug\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;copy &quot;data\&quot; &quot;$(TargetDir)\data\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -172,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;..\..\OpenCv\bin\Release\*.dll&quot; &quot;..\Release\&quot;"
+				CommandLine="copy &quot;..\..\OpenCv\bin\Release\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data&quot;&#x0D;&#x0A;copy &quot;data&quot; &quot;$(TargetDir)\data&quot;"
 			/>
 		</Configuration>
 	</Configurations>

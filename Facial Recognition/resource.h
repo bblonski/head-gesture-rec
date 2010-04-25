@@ -3,8 +3,6 @@
 #ifndef _FACE_RECOGNITION_H
 #define _FACE_RECOGNITION_H
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <exception>
 #include "HaarDetector.h"
 #include "SkinDetector.h"
@@ -13,6 +11,11 @@
 #include "MotionTracker.h"
 #include "GestureTracker.h"
 using namespace std; 
+
+#ifndef _MSC_VER
+#define strcpy_s strcpy
+#define strcat_s strcat
+#endif
 
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.

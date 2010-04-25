@@ -6,10 +6,19 @@
 #ifndef _EiC
 #include "cv.h"
 #include "highgui.h"
+#endif
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string>
-using namespace std; 
+
+#ifdef _WINDOWS_
+    #include <direct.h>
+#else
+    #include <unistd.h>
+#define _getcwd getcwd
 #endif
+
+using namespace std; 
 
 #endif

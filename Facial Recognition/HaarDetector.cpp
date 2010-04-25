@@ -4,20 +4,22 @@
 
 
 const char* const HaarDetector::HAAR_CLASSIFIER_WINDOW = "Haar Classifier";
-const char* const HaarDetector::HAARCASCADE_DIR = "C:\\Program Files (x86)\\OpenCV2.0\\data\\haarcascades\\";
+const char* const HaarDetector::HAARCASCADE_DIR = "/data/";
 const char* const HaarDetector::HAARCASCADE_EYE = "haarcascade_eye_tree_eyeglasses.xml";
 const char* const HaarDetector::HAARCASCADE_PROFILE = "haarcascade_profileface.xml";
 const char* const HaarDetector::HAARCASCADE_FRONTALFACE = "haarcascade_frontalface_default.xml";
 
 HaarDetector::HaarDetector()
 {
-    char cascadeName[100];
+    char cascadeName[FILENAME_MAX];
     // Determine Haar cascade location
-    strcpy_s(cascadeName, HAARCASCADE_DIR);
+    _getcwd(cascadeName, sizeof(cascadeName));
+    strcat_s(cascadeName, HAARCASCADE_DIR);
     strcat_s(cascadeName, HAARCASCADE_FRONTALFACE);
     cascade = (CvHaarClassifierCascade*)cvLoad( cascadeName);
     // Determine Haar cascade location
-    strcpy_s(cascadeName, HAARCASCADE_DIR);
+    _getcwd(cascadeName, sizeof(cascadeName));
+    strcat_s(cascadeName, HAARCASCADE_DIR);
     strcat_s(cascadeName, HAARCASCADE_EYE);
     nestedCascade = (CvHaarClassifierCascade*)cvLoad(cascadeName);
     init();

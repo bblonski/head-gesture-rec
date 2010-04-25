@@ -9,14 +9,14 @@
 * @version 1.$Rev$
 * @date $Date$
 **/
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <time.h>
 #include <fstream>
 #include "resource.h"
 #include "GestureEvent.h"
 #include "Utils.h"
 #include "Launcher.h"
-
-//C:\Program Files (x86)\OpenCV\data\haarcascades\haarcascade_frontalface_alt.xml
 
 static int timer;
 
@@ -39,12 +39,17 @@ static void Thread( void* pParams )
     Sleep(*((int*)pParams));
     if(rand() % 2){
         Log("Nod expected");
-        while( MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK);
+        while( MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK){
+            Log("Nod clicked");
+        }
         Log("Nod received");
     }
     else{
         Log("Shake expected");
-        while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL) == IDOK);
+        while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL) == IDOK)
+        {
+            Log("Shake clicked");
+        }
         Log("Shake received");
     }
     timer = (10 + rand() % 5) * 1000;
