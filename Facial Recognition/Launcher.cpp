@@ -20,15 +20,12 @@
 
 static int timer;
 
-static void Log(char* message){
+static void Log(char* message)
+{
     ofstream stream;
     stream.open("log.txt", ios::app);
-    time_t rawtime;
-    struct tm * timeinfo;
-    char buffer[21];
-    time (&rawtime);
-    timeinfo = localtime (&rawtime);
-    strftime(buffer, 100, "[%x %X] ", timeinfo);
+    char buffer[100];
+    Utils::getTime(buffer);
     stream << buffer <<  message << endl;
     stream.close();
 }
@@ -37,14 +34,16 @@ static void Thread(void* pParams)
 {
     srand((int)time(NULL));
     Sleep(*((int*)pParams));
-    if(rand() % 2){
+    if(rand() % 2)
+    {
         Log("Nod expected");
         while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK){
             Log("Nod clicked");
         }
         Log("Nod received");
     }
-    else{
+    else
+    {
         Log("Shake expected");
         while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL) == IDOK)
         {

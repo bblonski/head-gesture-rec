@@ -16,7 +16,7 @@
     #include <direct.h>
 #else
     #include <unistd.h>
-#define _getcwd getcwd
+    #define _getcwd getcwd
 #endif
 
 using namespace std; 

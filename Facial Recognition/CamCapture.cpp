@@ -2,6 +2,11 @@
 // Copyright (c) 2010 by Brian Blonski
 #include "Resource.h"
 #include "GestureEvent.h"
+#ifdef _WINDOWS_
+#include <windows.h>
+#else
+#include <sys/time.h>
+#endif
 
 /// Name to display in the Main Window
 const char* const CamCapture::MAIN_WINDOW = "Main";
@@ -17,6 +22,15 @@ capture(cvCaptureFromCAM(0))
     {
         noCamMsg();
     }
+#ifdef _WINDOWS_
+    SYSTEMTIME st;
+    GetSystemTime(&st);
+    lastCheckTime = st.wSecond + st.wMilliseconds * 1e-3;
+#else
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    lastCheckTime = time.tv_sec + time.tv_usec*1e-3;
+#endif
 }
 
 /// Deconstructor for CamCapture
@@ -50,12 +64,6 @@ CamCapture::getFrame()
     frame = cvQueryFrame(capture);
     if(!frame)
         return NULL;
-    if(!writer)
-        writer = cvCreateVideoWriter(VIDEO_FILE_NAME, 
-                CV_FOURCC('I','Y','U','V'), 10, cvGetSize(frame));
-    cvWriteFrame(writer, frame);
-    cvShowImage(MAIN_WINDOW, frame);
-
     // create image size of frame
     if(!image)
     {
@@ -64,9 +72,32 @@ CamCapture::getFrame()
     }
 
     // copy frame contents into image
-
     //cvCopy(frame, image, 0);
     cvCvtColor(frame, image, CV_BGR2GRAY);
+
+    frame = Utils::printTime(frame, cvPoint(20, 20));
+
+#ifdef _WINDOWS_
+    SYSTEMTIME st;
+    GetSystemTime(&st);
+    double currentTime = st.wSecond + st.wMilliseconds * 1e-3;
+#else
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    double currentTime = time.tv_sec + time.tv_usec * 1e-3;
+#endif
+    double fps = 1/(currentTime - lastCheckTime);
+    lastCheckTime = currentTime;
+    char fpsDisplay[1000];
+    sprintf_s(fpsDisplay, "%.2f", fps);
+    frame = Utils::printMsg(frame, fpsDisplay, cvPoint(frame->width - 50, 20));
+
+    if(!writer)
+        writer = cvCreateVideoWriter(VIDEO_FILE_NAME, 
+                CV_FOURCC('I','Y','U','V'), 20, cvGetSize(frame));
+    cvWriteFrame(writer, frame);
+    cvShowImage(MAIN_WINDOW, frame);
+
     return image;
 }
 

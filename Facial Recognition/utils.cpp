@@ -5,25 +5,25 @@
 const char* const Utils::LOGFILE = "log.txt";
 
 /* prints the x and y coordinates */
-IplImage* Utils::printMsg(IplImage *image, char* string, CvPoint pt)
+IplImage* 
+Utils::printMsg(IplImage *image, char* string, CvPoint pt)
 {
     CvFont font;
     //initialize the font
     cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, 0.3, 0.3, 0, 1, CV_AA);
     //write text to image
-    cvPutText(image, string, pt, &font, CV_RGB(250, 250, 250));
+    cvPutText(image, string, pt, &font, CV_RGB(250, 250, 0));
     return image;
 }
 
 /* prints the x and y coordinates */
-IplImage* Utils::printCoordinates(IplImage *image, double x, double y, CvPoint pt)
+IplImage* 
+Utils::printCoordinates(IplImage *image, double x, double y, CvPoint pt)
 {
     CvFont font;
     int _TextOffset = 10;
-    char *xCoord = (char*)malloc(20);
-    if(xCoord == NULL) return NULL;
-    char *yCoord = (char*)malloc(20);
-    if(yCoord == NULL) return NULL;
+    char xCoord[20];
+    char yCoord[20];
     //initialize the font
 
     cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, 0.3, 0.3, 0, 1, CV_AA);
@@ -34,7 +34,28 @@ IplImage* Utils::printCoordinates(IplImage *image, double x, double y, CvPoint p
     cvPutText(image, xCoord, pt, &font, CV_RGB(250, 250, 250));
     pt = cvPoint(pt.x, pt.y + _TextOffset);
     cvPutText(image, yCoord, pt, &font, CV_RGB(250, 250, 250));
-    free(xCoord);
-    free(yCoord);
     return image;
+}
+
+IplImage* 
+Utils::printTime(IplImage *image, CvPoint pt)
+{
+    CvFont font;
+    //initialize the font
+    char buffer[100];
+    Utils::getTime(buffer);
+    cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, 0.3, 0.3, 0, 1, CV_AA);
+    //write text to image
+    cvPutText(image, buffer, pt, &font, CV_RGB(250, 250, 0));
+    return image;
+}
+
+void
+Utils::getTime(char* dest)
+{
+    time_t rawtime;
+    struct tm * timeinfo;
+    time (&rawtime);
+    timeinfo = localtime (&rawtime);
+    strftime(dest, 100, "[%x %X] ", timeinfo);
 }

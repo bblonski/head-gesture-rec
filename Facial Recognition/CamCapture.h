@@ -14,6 +14,7 @@ private:
     static const char* const VIDEO_FILE_NAME;
     CvVideoWriter* writer;
 	CvCapture* capture;
+    double lastCheckTime;
 public:
 	CamCapture(void);
 	~CamCapture(void);

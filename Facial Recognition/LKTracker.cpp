@@ -58,9 +58,9 @@ LKTracker::select(CvRect *r)
     // which results in including lots of background points.
     // min size r should be 80x80
     ROI->width -= 20;
-    ROI->height -= 20;
+    //ROI->height -= 20;
     ROI->x += 10;
-    ROI->y += 10;
+    //ROI->y += 10;
     initialized = false;
 }
 
@@ -90,7 +90,7 @@ LKTracker::setCount()
         3,				// Level - 4 pyramids
         status,			// Array containing 1 is the cooresponding element is found, else 0
         0,				// Array of doubles containing difference between original and moved points
-        cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03), 
+        cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 20, 0.03), 
         flags);
     flags |= CV_LKFLOW_PYR_A_READY;	// Pyramid for first frame has already been calculated
     for(index = newNumPoints = 0; index < numPoints; index++)
