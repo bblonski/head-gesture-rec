@@ -23,12 +23,12 @@ LKTracker::~LKTracker(void)
 void
 LKTracker::init(const IplImage* frame)
 {
-    image = cvCreateImage( cvGetSize(frame), 8, 1 );
+    image = cvCreateImage(cvGetSize(frame), 8, 1);
     image->origin = frame->origin;
-    grey = cvCreateImage( cvGetSize(frame), 8, 1 );
-    prevGrey = cvCreateImage( cvGetSize(frame), 8, 1 );
-    pyramid = cvCreateImage( cvGetSize(frame), 8, 1 );
-    prevPyramid = cvCreateImage( cvGetSize(frame), 8, 1 );
+    grey = cvCreateImage(cvGetSize(frame), 8, 1);
+    prevGrey = cvCreateImage(cvGetSize(frame), 8, 1);
+    pyramid = cvCreateImage(cvGetSize(frame), 8, 1);
+    prevPyramid = cvCreateImage(cvGetSize(frame), 8, 1);
 }
 
 // Mouse callback for setting tracking points
@@ -38,10 +38,10 @@ LKTracker::onMouse(int event, int x, int y)
     if(!image)
         return;
 
-    if( image->origin )
+    if(image->origin)
         y = image->height - y;
 
-    if( event == CV_EVENT_LBUTTONDOWN )
+    if(event == CV_EVENT_LBUTTONDOWN)
     {
         setPoint(x,y);
     }
@@ -78,7 +78,7 @@ LKTracker::setCount()
 {
     int index, newNumPoints;
     // Calculates the optical flow between the grey images
-    cvCalcOpticalFlowPyrLK( 
+    cvCalcOpticalFlowPyrLK(
         prevGrey,		// Previous image
         grey,			// Current image
         prevPyramid,	// Pyramid of previous image
@@ -91,19 +91,19 @@ LKTracker::setCount()
         status,			// Array containing 1 is the cooresponding element is found, else 0
         0,				// Array of doubles containing difference between original and moved points
         cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03), 
-        flags );
+        flags);
     flags |= CV_LKFLOW_PYR_A_READY;	// Pyramid for first frame has already been calculated
-    for( index = newNumPoints = 0; index < numPoints; index++ )
+    for(index = newNumPoints = 0; index < numPoints; index++)
     {
         // If have new points, add new point
-        if( hasNewPoint )
+        if(hasNewPoint)
         {
             // Calculate distance from other points
             double dx = point.x - points[1][index].x;
             double dy = point.y - points[1][index].y;
 
             // Skip if point is too close to another point
-            if( dx*dx + dy*dy <= 25 )
+            if(dx*dx + dy*dy <= 25)
             {
                 hasNewPoint = false;
                 continue;
@@ -111,12 +111,13 @@ LKTracker::setCount()
         }
 
         // Remove missing points
-        if( !status[index] )
+        if(!status[index])
             continue;
         points[1][newNumPoints++] = points[1][index];
 
         // Draw each point
-        cvCircle( image, cvPointFrom32f(points[1][index]), 3, CV_RGB(0,255,0), -1, 8,0);
+        cvCircle(image, cvPointFrom32f(points[1][index]), 3, CV_RGB(0, 255, 0), 
+            -1, 8,0);
     }
     numPoints = newNumPoints;
 }
@@ -134,8 +135,8 @@ LKTracker::autoFindPoints()
     /* automatic initialization */
     int i;	
     // FIXME Initialize only once
-    IplImage* eig = cvCreateImage( cvGetSize(grey), 32, 1 );
-    IplImage* temp = cvCreateImage( cvGetSize(grey), 32, 1 );
+    IplImage* eig = cvCreateImage(cvGetSize(grey), 32, 1);
+    IplImage* temp = cvCreateImage(cvGetSize(grey), 32, 1);
     // FIXME Move to constants?
     const double quality = 0.01;
     const double min_distance = 10;
@@ -147,7 +148,7 @@ LKTracker::autoFindPoints()
     cvSetImageROI(eig, *ROI);
     cvSetImageROI(temp, *ROI);
 
-    cvGoodFeaturesToTrack( 
+    cvGoodFeaturesToTrack(
         grey,				// Input image
         eig,				// Temp image
         temp,				// Another temp image
@@ -169,11 +170,10 @@ LKTracker::autoFindPoints()
         points[1][i].y += ROI->y;
     }
 
-    cvFindCornerSubPix( grey, points[1], numPoints,
-        cvSize(WIN_SIZE,WIN_SIZE), cvSize(-1,-1),
-        cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03));
-    cvReleaseImage( &eig );
-    cvReleaseImage( &temp );
+    cvFindCornerSubPix(grey, points[1], numPoints, cvSize(WIN_SIZE, WIN_SIZE), 
+        cvSize(-1, -1), cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 20, 0.03));
+    cvReleaseImage(&eig);
+    cvReleaseImage(&temp);
     hasNewPoint = false;
 }
 
@@ -200,26 +200,26 @@ LKTracker::detect(const IplImage *frame)
     }
 
     // If has new point to add and does not have max points
-    if( hasNewPoint && numPoints < MAX_COUNT )
+    if(hasNewPoint && numPoints < MAX_COUNT)
     {
         // Add new point
         points[1][numPoints++] = cvPointTo32f(point);
         // Refine corner location
-        cvFindCornerSubPix( 
+        cvFindCornerSubPix(
             grey,		// Image input
             points[1] + numPoints - 1,	// Initial corner input and refined corner output 
             1,			// Number of corners
             cvSize(WIN_SIZE,WIN_SIZE), // Half the size length of the search window
-            cvSize(-1,-1), // Do not use zero_zone
-            cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03));
+            cvSize(-1, -1), // Do not use zero_zone
+            cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 20, 0.03));
         hasNewPoint = false;
     }
 
-    CV_SWAP( prevGrey, grey, swapImage );
-    CV_SWAP( prevPyramid, pyramid, swapImage );
-    CV_SWAP( points[0], points[1], swapPoints );
+    CV_SWAP(prevGrey, grey, swapImage);
+    CV_SWAP(prevPyramid, pyramid, swapImage);
+    CV_SWAP(points[0], points[1], swapPoints);
     initialized = true;
-    cvShowImage( LK_TRACKER_WINDOW, image );
+    cvShowImage(LK_TRACKER_WINDOW, image);
 }
 
 CvPoint2D32f**

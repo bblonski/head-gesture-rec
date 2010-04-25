@@ -26,20 +26,20 @@ static void Log(char* message){
     time_t rawtime;
     struct tm * timeinfo;
     char buffer[21];
-    time ( &rawtime );
-    timeinfo = localtime ( &rawtime );
+    time (&rawtime );
+    timeinfo = localtime (&rawtime);
     strftime(buffer, 100, "[%x %X] ", timeinfo);
     stream << buffer <<  message << endl;
     stream.close();
 }
 
-static void Thread( void* pParams )
+static void Thread(void* pParams)
 {
     srand((int)time(NULL));
     Sleep(*((int*)pParams));
     if(rand() % 2){
         Log("Nod expected");
-        while( MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK){
+        while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK){
             Log("Nod clicked");
         }
         Log("Nod received");
@@ -53,7 +53,7 @@ static void Thread( void* pParams )
         Log("Shake received");
     }
     timer = (10 + rand() % 5) * 1000;
-    uintptr_t hand = _beginthread( Thread, 0, &timer );
+    uintptr_t hand = _beginthread(Thread, 0, &timer);
     _endthread();
 }
 
@@ -84,7 +84,7 @@ int
 Launcher::run()
 {
     timer = (30 + rand() % 15) * 1000;
-    uintptr_t hand = _beginthread( Thread, 0, &timer );
+    uintptr_t hand = _beginthread(Thread, 0, &timer);
     CvRect* r = NULL;
     int runonce = true;
     Log("starting...");
@@ -127,7 +127,7 @@ Launcher::run()
 
         // wait for esc key
         char c = cvWaitKey(1);
-        if( (char) c == 27 )
+        if((char) c == 27)
         {
             // exit loop
             break;

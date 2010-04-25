@@ -16,7 +16,7 @@ HaarDetector::HaarDetector()
     _getcwd(cascadeName, sizeof(cascadeName));
     strcat_s(cascadeName, HAARCASCADE_DIR);
     strcat_s(cascadeName, HAARCASCADE_FRONTALFACE);
-    cascade = (CvHaarClassifierCascade*)cvLoad( cascadeName);
+    cascade = (CvHaarClassifierCascade*)cvLoad(cascadeName);
     // Determine Haar cascade location
     _getcwd(cascadeName, sizeof(cascadeName));
     strcat_s(cascadeName, HAARCASCADE_DIR);
@@ -25,8 +25,9 @@ HaarDetector::HaarDetector()
     init();
 }
 
-HaarDetector::HaarDetector(CvHaarClassifierCascade *pCascade, CvHaarClassifierCascade* pNestedCascade) : 
-cascade(pCascade), nestedCascade( pNestedCascade)
+HaarDetector::HaarDetector(CvHaarClassifierCascade *pCascade, 
+                           CvHaarClassifierCascade* pNestedCascade) : 
+cascade(pCascade), nestedCascade(pNestedCascade)
 {
     init();
 }
@@ -57,17 +58,17 @@ HaarDetector::detect(const IplImage* frame)
     }
     cvCopyImage(frame, image);
     // Create a new frame based on the input frame
-    IplImage* temp = cvCreateImage(cvGetSize(image), 8, 1 );
+    IplImage* temp = cvCreateImage(cvGetSize(image), 8, 1);
 
     // Create two points to represent corners of the face bounding box
     CvPoint pt1, pt2;
     int i;
     storage = cvCreateMemStorage(0);
     // Clear the memory storage which was used before
-    cvClearMemStorage( storage );
+    cvClearMemStorage(storage);
 
     // Check whether the cascade has loaded successfully. Else report and error and quit
-    if( !cascade )
+    if(!cascade)
     {
         image = Utils::printMsg(image, "ERROR: Could not load classifier cascade\n", 
                 cvPoint(20, 200) );
@@ -75,12 +76,12 @@ HaarDetector::detect(const IplImage* frame)
     }
 
     // Find whether the cascade is loaded, to find the faces. If yes, then:
-    if( cascade )
+    if(cascade)
     {
 
         // There can be more than one face in an image. So create a growable sequence of faces.
         // Detect the objects and store them in the sequence
-        CvSeq* faces = cvHaarDetectObjects( 
+        CvSeq* faces = cvHaarDetectObjects(
             image,
             cascade, 
             storage,
@@ -90,12 +91,12 @@ HaarDetector::detect(const IplImage* frame)
             cvSize(80, 80));
 
         // Loop the number of faces found.
-        //for( i = 0; i < (faces ? faces->total : 0); i++ )
+        //for(i = 0; i < (faces ? faces->total : 0); i++)
         // only loop on the first face
-        for( i = 0; i < (faces && faces->total ? 1 : 0); i++ )
+        for(i = 0; i < (faces && faces->total ? 1 : 0); i++ )
         {
             // Create a new rectangle for drawing the face
-            memcpy(r,(CvRect*)cvGetSeqElem( faces, i ),sizeof(CvRect));
+            memcpy(r, (CvRect*)cvGetSeqElem(faces, i), sizeof(CvRect));
 
             // Find the dimensions of the face,and scale it if necessary
             pt1.x = r->x;
@@ -105,7 +106,7 @@ HaarDetector::detect(const IplImage* frame)
             frame = Utils::printCoordinates(image, r->x + 0.5*r->width, r->y + 0.5*r->height, cvPoint(20,200));
 
             // Draw the rectangle in the input image
-            cvRectangle( image, pt1, pt2, CV_RGB(255,0,0), 3, 8, 0 );
+            cvRectangle(image, pt1, pt2, CV_RGB(255, 0, 0), 3, 8, 0);
         }
         if (faces->total > 0 && nestedCascade)
         {
@@ -136,8 +137,8 @@ HaarDetector::detect(const IplImage* frame)
 
     //cvShowImage(HAAR_CLASSIFIER_WINDOW, image);
     // Release the temp image created.
-    cvReleaseImage( &temp );
-    cvReleaseMemStorage( &storage );
+    cvReleaseImage(&temp);
+    cvReleaseMemStorage(&storage);
     return r;
 }
 

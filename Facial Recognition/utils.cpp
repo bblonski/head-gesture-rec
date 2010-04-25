@@ -9,10 +9,9 @@ IplImage* Utils::printMsg(IplImage *image, char* string, CvPoint pt)
 {
     CvFont font;
     //initialize the font
-    cvInitFont( &font, CV_FONT_HERSHEY_COMPLEX,
-        0.3, 0.3, 0, 1, CV_AA);
+    cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, 0.3, 0.3, 0, 1, CV_AA);
     //write text to image
-    cvPutText(image, string, pt, &font, CV_RGB( 250, 250, 250) );
+    cvPutText(image, string, pt, &font, CV_RGB(250, 250, 250) );
     return image;
 }
 
@@ -27,15 +26,14 @@ IplImage* Utils::printCoordinates(IplImage *image, double x, double y, CvPoint p
     if(yCoord == NULL) return NULL;
     //initialize the font
 
-    cvInitFont( &font, CV_FONT_HERSHEY_COMPLEX,
-        0.3, 0.3, 0, 1, CV_AA);
+    cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, 0.3, 0.3, 0, 1, CV_AA);
     //write x-y coordinates to strings
     sprintf(xCoord, "x = %g", x);
     sprintf(yCoord, "y = %g", y);
     //write text to image
-    cvPutText(image, xCoord, pt, &font, CV_RGB( 250, 250, 250) );
-    pt = cvPoint( pt.x, pt.y + _TextOffset);
-    cvPutText(image, yCoord, pt, &font, CV_RGB(250, 250, 250) );
+    cvPutText(image, xCoord, pt, &font, CV_RGB(250, 250, 250));
+    pt = cvPoint(pt.x, pt.y + _TextOffset);
+    cvPutText(image, yCoord, pt, &font, CV_RGB(250, 250, 250));
     free(xCoord);
     free(yCoord);
     return image;
