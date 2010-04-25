@@ -74,7 +74,6 @@ Launcher::Launcher(char *logDir)
     motionTracker = new MotionTracker();
     gestureTracker = new GestureTracker();
     srand((int)time(NULL));
-    utils = new Utils(logDir);
 }
 
 Launcher::~Launcher(void)

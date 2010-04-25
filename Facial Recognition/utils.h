@@ -7,14 +7,10 @@
 
 class Utils
 {
-private:
-    char* logDir;
 public:
+    // variables
     static const char* const LOGFILE;
-
-	Utils(char* logDir);
-	Utils(void);
-	~Utils(void);
+    // fucntions
 	static IplImage *printCoordinates(IplImage *image, double x, double y, CvPoint pt);
     static IplImage *printMsg(IplImage *image, char* string, CvPoint pt);
 };

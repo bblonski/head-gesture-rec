@@ -4,18 +4,6 @@
 
 const char* const Utils::LOGFILE = "log.txt";
 
-Utils::Utils(char* logDir)
-{
-}
-
-Utils::Utils(void)
-{
-}
-
-Utils::~Utils(void)
-{
-}
-
 /* prints the x and y coordinates */
 IplImage* Utils::printMsg(IplImage *image, char* string, CvPoint pt)
 {
