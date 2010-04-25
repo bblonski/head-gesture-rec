@@ -9,12 +9,12 @@ SkinDetector::SkinDetector(void) : vmin(65), vmax(256), smin(0), hdims(16),
 backprojectMode(0), image(0), hsv(0), hue(0), mask(0), backproject(0), 
 histImage(0), trackObject(0), showHist(0), selectObject(0)
 {
-    cvNamedWindow(SKIN_FILTER_WINDOW, 1 );
+    cvNamedWindow(SKIN_FILTER_WINDOW, 1);
     cvCreateTrackbar("Vmin", SKIN_FILTER_WINDOW, &vmin, 256, 0);
     cvCreateTrackbar("Vmax", SKIN_FILTER_WINDOW, &vmax, 256, 0);
     cvCreateTrackbar("Smin", SKIN_FILTER_WINDOW, &smin, 256, 0);
     cvSetMouseCallback(SKIN_FILTER_WINDOW,
-        &SkinDetector::mouseCallback, this );
+        &SkinDetector::mouseCallback, this);
 }
 
 SkinDetector::~SkinDetector(void)
@@ -176,8 +176,8 @@ SkinDetector::track()
 
     /* Finds object center, size, and orientation */
     cvCamShift(backproject, trackFrame, 
-        cvTermCriteria(CV_TERMCRIT_EPS|CV_TERMCRIT_ITER, 10, 1 ), &trackComp, 
-        &trackBox );
+        cvTermCriteria(CV_TERMCRIT_EPS|CV_TERMCRIT_ITER, 10, 1), &trackComp, 
+        &trackBox);
 
     // Update face location and angle
     trackFrame = trackComp.rect;

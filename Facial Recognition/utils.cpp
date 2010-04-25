@@ -11,7 +11,7 @@ IplImage* Utils::printMsg(IplImage *image, char* string, CvPoint pt)
     //initialize the font
     cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, 0.3, 0.3, 0, 1, CV_AA);
     //write text to image
-    cvPutText(image, string, pt, &font, CV_RGB(250, 250, 250) );
+    cvPutText(image, string, pt, &font, CV_RGB(250, 250, 250));
     return image;
 }
 

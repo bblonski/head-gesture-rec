@@ -160,7 +160,7 @@ LKTracker::autoFindPoints()
         // consider using getSubRect to refine search area
         3,					// Size of averaging block
         0,					// Use harris if nonzero
-        0.04 );				// Parameter only if harris!=0
+        0.04);				// Parameter only if harris!=0
     // reset ROI
     cvResetImageROI(grey);
     // Move detected point locations relative to the ROI

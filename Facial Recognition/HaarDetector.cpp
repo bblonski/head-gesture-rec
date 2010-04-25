@@ -71,7 +71,7 @@ HaarDetector::detect(const IplImage* frame)
     if(!cascade)
     {
         image = Utils::printMsg(image, "ERROR: Could not load classifier cascade\n", 
-                cvPoint(20, 200) );
+                cvPoint(20, 200));
         throw -1;
     }
 
@@ -93,7 +93,7 @@ HaarDetector::detect(const IplImage* frame)
         // Loop the number of faces found.
         //for(i = 0; i < (faces ? faces->total : 0); i++)
         // only loop on the first face
-        for(i = 0; i < (faces && faces->total ? 1 : 0); i++ )
+        for(i = 0; i < (faces && faces->total ? 1 : 0); i++)
         {
             // Create a new rectangle for drawing the face
             memcpy(r, (CvRect*)cvGetSeqElem(faces, i), sizeof(CvRect));

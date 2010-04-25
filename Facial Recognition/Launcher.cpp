@@ -13,7 +13,7 @@
 
 #include <time.h>
 #include <fstream>
-#include "resource.h"
+#include "Resource.h"
 #include "GestureEvent.h"
 #include "Utils.h"
 #include "Launcher.h"
@@ -26,7 +26,7 @@ static void Log(char* message){
     time_t rawtime;
     struct tm * timeinfo;
     char buffer[21];
-    time (&rawtime );
+    time (&rawtime);
     timeinfo = localtime (&rawtime);
     strftime(buffer, 100, "[%x %X] ", timeinfo);
     stream << buffer <<  message << endl;
