@@ -16,7 +16,9 @@ const char* const CamCapture::VIDEO_FILE_NAME = "log.avi";
 CamCapture::CamCapture(void) : writer(NULL), 
 capture(cvCaptureFromCAM(0))
 {
+#if SHOW_WINDOWS
     cvNamedWindow(MAIN_WINDOW, 1);
+#endif
     // if capture fails, display connect camera message
     if(!capture)
     {
@@ -39,7 +41,9 @@ CamCapture::~CamCapture(void)
     if(writer)
         cvReleaseVideoWriter(&writer);
     cvReleaseCapture(&capture);
+#if SHOW_WINDOWS
     cvDestroyWindow(MAIN_WINDOW);
+#endif
 }
 
 /**
@@ -95,8 +99,11 @@ CamCapture::getFrame()
     if(!writer)
         writer = cvCreateVideoWriter(VIDEO_FILE_NAME, 
                 CV_FOURCC('I','Y','U','V'), 20, cvGetSize(frame));
-    cvWriteFrame(writer, frame);
+    //cvWriteFrame(writer, frame);
+
+#if SHOW_WINDOWS
     cvShowImage(MAIN_WINDOW, frame);
+#endif
 
     return image;
 }
@@ -128,6 +135,8 @@ CamCapture::noCamMsg()
     // wait till user presses a key
     cvWaitKey(0);
     cvReleaseImage(&msg);
+#if SHOW_WINDOW
     cvDestroyWindow("Error");
+#endif
     exit(-1);
 }

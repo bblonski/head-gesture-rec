@@ -19,6 +19,8 @@
     #define _getcwd getcwd
 #endif
 
+#define SHOW_WINDOWS 0
+
 using namespace std; 
 
 #endif

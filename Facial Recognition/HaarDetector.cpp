@@ -34,7 +34,9 @@ cascade(pCascade), nestedCascade(pNestedCascade)
 
 HaarDetector::~HaarDetector(void)
 {
+#if SHOW_WINDOWS
     cvDestroyWindow(HAAR_CLASSIFIER_WINDOW);
+#endif
     cvReleaseHaarClassifierCascade(&cascade);
 }
 
@@ -42,7 +44,9 @@ HaarDetector::~HaarDetector(void)
 void
 HaarDetector::init()
 {
+#if SHOW_WINDOWS
     cvNamedWindow(HAAR_CLASSIFIER_WINDOW, CV_WINDOW_AUTOSIZE);
+#endif
     image = NULL;
 }
 
@@ -134,8 +138,9 @@ HaarDetector::detect(const IplImage* frame)
         //}
 
     }
-
+#if SHOW_WINDOWS
     cvShowImage(HAAR_CLASSIFIER_WINDOW, image);
+#endif
     // Release the temp image created.
     cvReleaseImage(&temp);
     cvReleaseMemStorage(&storage);

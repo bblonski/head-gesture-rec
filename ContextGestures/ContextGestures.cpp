@@ -7,6 +7,7 @@ using namespace System;
 static int timer;
 static NaiveLauncher* launch;
 HANDLE hMutex;
+static int questionCount;
 
 static void Log(char* message)
 {
@@ -21,12 +22,20 @@ static void Thread(void* pParams);
 
 static void Thread2(void* pParams)
 {
+    questionCount++;
     srand((int)time(NULL));
     Sleep(timer);
     uintptr_t hand = _beginthread(Thread, 0, NULL);
     WaitForSingleObject(hMutex, INFINITE); 
     launch->run();
     ReleaseMutex(hMutex);
+    if(questionCount > 20)
+    {
+        WaitForSingleObject((HANDLE)hand, INFINITE); 
+        MessageBox(NULL, L"Test has finished.\nThank You for your participation.", 
+            L"You're Done!", MB_SYSTEMMODAL|MB_ICONINFORMATION);
+        exit(0);
+    }
     _endthread();
 }
 
@@ -37,7 +46,7 @@ static void Thread(void* pParams)
     if(rand() % 2)
     {
         Log("Nod expected");
-        while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK){
+        while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL|MB_ICONHAND) == IDOK){
             Log("Nod clicked");
         }
         Log("Nod received");
@@ -45,7 +54,7 @@ static void Thread(void* pParams)
     else
     {
         Log("Shake expected");
-        while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL) == IDOK)
+        while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL|MB_ICONEXCLAMATION) == IDOK)
         {
             Log("Shake clicked");
         }
@@ -60,6 +69,7 @@ static void Thread(void* pParams)
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
+    questionCount = 0;
     hMutex = CreateMutex(NULL, false, L"myMutex");
     char* argv[1] = {0};
     int argc = 1;
@@ -70,12 +80,7 @@ int main(array<System::String ^> ^args)
     
     while(1)
     {
-        char c = cvWaitKey(1);
-        if((char) c == 27)
-        {
-            // exit loop
-            break;
-        }
+        Sleep(1000);
     }
     
 	return 0;
