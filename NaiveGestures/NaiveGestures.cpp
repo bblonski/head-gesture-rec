@@ -1,6 +1,6 @@
 // NaiveGestures.cpp : main project file.
 
-#include "Launcher.h"
+#include "NaiveLauncher.h"
 using namespace System;
 using namespace System::IO;
 
@@ -50,7 +50,7 @@ int main(array<System::String ^> ^args)
 
     timer = (30 + rand() % 15) * 1000;
     uintptr_t hand = _beginthread(Thread, 0, &timer);
-    Launcher* launch = new Launcher((argv[0]) ? argv[0] : NULL);
+    NaiveLauncher* launch = new NaiveLauncher((argv[0]) ? argv[0] : NULL);
     return launch->run();
     delete launch;
     

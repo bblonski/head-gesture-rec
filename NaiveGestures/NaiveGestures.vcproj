@@ -65,7 +65,7 @@
 				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\OpenCV2.0\lib\Debug&quot;"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
-				SubSystem="1"
+				SubSystem="2"
 				EntryPointSymbol="main"
 				TargetMachine="1"
 			/>
@@ -205,12 +205,20 @@
 				RelativePath=".\NaiveGestures.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\NaiveLauncher.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\NaiveLauncher.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
