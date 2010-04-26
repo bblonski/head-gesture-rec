@@ -25,6 +25,7 @@ static void Log(char* message)
 
 Launcher::Launcher(void)
 {
+    running = true;
 }
 
 Launcher::~Launcher(void)
@@ -46,7 +47,7 @@ Launcher::run()
     int runonce = true;
     Log("starting...");
     // Tracking loop
-    while(true)
+    while(running)
     {
         /*try
         {*/

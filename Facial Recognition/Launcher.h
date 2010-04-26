@@ -22,6 +22,7 @@ private:
     MotionTracker* motionTracker;
     GestureTracker* gestureTracker;
 public:
+    int running;
     GestureEvent nodEvent;
     GestureEvent shakeEvent;
     int run(void);
