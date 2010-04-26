@@ -20,7 +20,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>
@@ -51,6 +51,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				CallingConvention="0"
 				EnablePREfast="false"
 			/>
 			<Tool
@@ -63,20 +64,12 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/LIBPATH:&quot;D:\My Documents\Visual Studio 2008\Projects\OpenCV\lib\Debug&quot;"
+				Name="VCLibrarianTool"
 				AdditionalDependencies="cxcore200d.lib cv200d.lib highgui200d.lib cvaux200d.lib"
-				LinkIncremental="2"
-				GenerateDebugInformation="true"
-				AssemblyDebug="1"
-				SubSystem="1"
-				TargetMachine="0"
+				AdditionalLibraryDirectories="&quot;D:\My Documents\Visual Studio 2008\Projects\OpenCV\lib\Debug&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -88,11 +81,8 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;..\..\OpenCv\bin\Debug\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;copy &quot;data\&quot; &quot;$(TargetDir)\data\&quot;"
+				CommandLine="copy &quot;..\..\OpenCv\bin\Debug\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;copy &quot;data\&quot; &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -125,7 +115,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\OpenCV2.0\include\opencv&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;EXPORT_DLL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -174,7 +164,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;..\..\OpenCv\bin\Release\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data&quot;&#x0D;&#x0A;copy &quot;data&quot; &quot;$(TargetDir)\data&quot;"
+				CommandLine="copy &quot;..\..\OpenCv\bin\Release\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data&quot;&#x0D;&#x0A;copy &quot;data&quot; &quot;$(TargetDir)\data&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

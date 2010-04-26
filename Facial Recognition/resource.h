@@ -10,7 +10,6 @@
 #include "LKTracker.h"
 #include "MotionTracker.h"
 #include "GestureTracker.h"
-using namespace std; 
 
 #ifndef _MSC_VER
 #define strcpy_s strcpy
@@ -33,5 +32,6 @@ using namespace std;
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
+using namespace std; 
 
 #endif

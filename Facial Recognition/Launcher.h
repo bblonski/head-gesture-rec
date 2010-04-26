@@ -3,6 +3,12 @@
 #ifndef _LAUNCHER_H
 #define _LAUNCHER_H
 
+#include "Resource.h"
+#include "GestureEvent.h"
+#include "Utils.h"
+#include <time.h>
+#include <fstream>
+
 class Launcher
 {
 private:

@@ -7,7 +7,6 @@
 #include <windows.h>
 #include <process.h>
 
-
 [event_source(native)]
 class GestureEvent
 {
@@ -34,7 +33,7 @@ public:
 [event_receiver(native)]
 class NodReceiver : public GestureReceiver {
 public:
-    virtual void gHandler() {
+    void gHandler() {
         HWND dialog = FindWindow(L"#32770", L"Nod");
         EndDialog(dialog, 0);
     }

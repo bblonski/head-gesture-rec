@@ -11,14 +11,7 @@
 **/
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <time.h>
-#include <fstream>
-#include "Resource.h"
-#include "GestureEvent.h"
-#include "Utils.h"
 #include "Launcher.h"
-
-static int timer;
 
 static void Log(char* message)
 {
@@ -30,48 +23,14 @@ static void Log(char* message)
     stream.close();
 }
 
-static void Thread(void* pParams)
-{
-    srand((int)time(NULL));
-    Sleep(*((int*)pParams));
-    if(rand() % 2)
-    {
-        Log("Nod expected");
-        while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK){
-            Log("Nod clicked");
-        }
-        Log("Nod received");
-    }
-    else
-    {
-        Log("Shake expected");
-        while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL) == IDOK)
-        {
-            Log("Shake clicked");
-        }
-        Log("Shake received");
-    }
-    timer = (10 + rand() % 5) * 1000;
-    uintptr_t hand = _beginthread(Thread, 0, &timer);
-    _endthread();
-}
-
 Launcher::Launcher(char *logDir)
 {
-    // Create new camera capture
-    cam = new CamCapture();
     nreceiver;
     sreceiver;
     nodEvent;
     shakeEvent;
     nreceiver.hookEvent(&nodEvent);
     sreceiver.hookEvent(&shakeEvent);
-    // Init new trackers
-    haar = new HaarDetector();
-    //SkinDetector* skin = new SkinDetector();
-    lk = new LKTracker();
-    motionTracker = new MotionTracker();
-    gestureTracker = new GestureTracker();
     srand((int)time(NULL));
 }
 
@@ -82,8 +41,14 @@ Launcher::~Launcher(void)
 int 
 Launcher::run()
 {
-    timer = (30 + rand() % 15) * 1000;
-    uintptr_t hand = _beginthread(Thread, 0, &timer);
+    // Create new camera capture
+    cam = new CamCapture();
+    // Init new trackers
+    haar = new HaarDetector();
+    lk = new LKTracker();
+    motionTracker = new MotionTracker();
+    gestureTracker = new GestureTracker();
+
     CvRect* r = NULL;
     int runonce = true;
     Log("starting...");
@@ -144,21 +109,12 @@ Launcher::run()
     if(r)
         free(r);
     delete haar;
-    //delete skin;
     delete cam;
     delete lk;
     delete motionTracker;
     delete gestureTracker;
     Log("End");
     return 0;
-}
-
-int 
-main(int argc, char* argv[])
-{
-    Launcher* launch = new Launcher((argv[0]) ? argv[0] : NULL);
-    return launch->run();
-    delete launch;
 }
 
 #ifdef _EiC
