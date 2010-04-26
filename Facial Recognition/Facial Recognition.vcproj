@@ -65,7 +65,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="cxcore200d.lib cv200d.lib highgui200d.lib cvaux200d.lib"
 				AdditionalLibraryDirectories="&quot;D:\My Documents\Visual Studio 2008\Projects\OpenCV\lib\Debug&quot;"
 			/>
 			<Tool
@@ -82,7 +81,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;..\..\OpenCv\bin\Debug\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;copy &quot;data\&quot; &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;"
+				CommandLine="&#x0D;&#x0A;mkdir &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;copy &quot;data\&quot; &quot;$(TargetDir)\data\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

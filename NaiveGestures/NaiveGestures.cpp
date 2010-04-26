@@ -1,12 +1,8 @@
 // NaiveGestures.cpp : main project file.
 
-#include <time.h>
-#include <fstream>
-#include "Resource.h"
-#include "GestureEvent.h"
-#include "Utils.h"
 #include "Launcher.h"
 using namespace System;
+using namespace System::IO;
 
 static int timer;
 

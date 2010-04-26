@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\OpenCV2.0\include\opencv&quot;;&quot;D:\My Documents\Visual Studio 2008\Projects\HeadGestureRec\Facial Recognition&quot;"
+				AdditionalIncludeDirectories="&quot;D:\My Documents\Visual Studio 2008\Projects\HeadGestureRec\Facial Recognition&quot;;&quot;C:\Program Files (x86)\OpenCV2.0\include\opencv&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -60,12 +60,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="user32.lib $(NOINHERIT)"
+				AdditionalDependencies="cv200d.lib cxcore200d.lib highgui200d.lib ml200d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\OpenCV2.0\lib\Debug&quot;"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
-				SubSystem="2"
+				SubSystem="1"
 				EntryPointSymbol="main"
 				TargetMachine="1"
 			/>
