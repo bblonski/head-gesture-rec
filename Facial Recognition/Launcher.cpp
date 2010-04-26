@@ -23,15 +23,8 @@ static void Log(char* message)
     stream.close();
 }
 
-Launcher::Launcher(char *logDir)
+Launcher::Launcher(void)
 {
-    nreceiver;
-    sreceiver;
-    nodEvent;
-    shakeEvent;
-    nreceiver.hookEvent(&nodEvent);
-    sreceiver.hookEvent(&shakeEvent);
-    srand((int)time(NULL));
 }
 
 Launcher::~Launcher(void)
@@ -104,8 +97,6 @@ Launcher::run()
     }
 
     // cleanup
-    nreceiver.unhookEvent(&nodEvent);
-    sreceiver.unhookEvent(&shakeEvent);
     if(r)
         free(r);
     delete haar;

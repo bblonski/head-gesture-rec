@@ -2,7 +2,6 @@
 
 #include "NaiveLauncher.h"
 using namespace System;
-using namespace System::IO;
 
 static int timer;
 
@@ -48,12 +47,12 @@ int main(array<System::String ^> ^args)
     char* argv[1] = {0};
     int argc = 1;
 
-    timer = (30 + rand() % 15) * 1000;
+    timer = (rand() % 15) * 1000;
     uintptr_t hand = _beginthread(Thread, 0, &timer);
-    NaiveLauncher* launch = new NaiveLauncher((argv[0]) ? argv[0] : NULL);
-    return launch->run();
+    NaiveLauncher* launch = new NaiveLauncher();
+    int result = launch->run();
     delete launch;
     
-	return 0;
+	return result;
 }
 

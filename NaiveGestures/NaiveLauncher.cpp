@@ -12,6 +12,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "NaiveLauncher.h"
+using namespace System::IO;
+
 
 static void Log(char* message)
 {
@@ -23,98 +25,36 @@ static void Log(char* message)
     stream.close();
 }
 
-NaiveLauncher::NaiveLauncher(char* Logdir)
+NaiveLauncher::NaiveLauncher()
 {
-    nreceiver;
-    sreceiver;
-    nodEvent;
-    shakeEvent;
-    nreceiver.hookEvent(&nodEvent);
-    sreceiver.hookEvent(&shakeEvent);
+    launch = new Launcher();
+    nreceiver.hookEvent(&launch->nodEvent);
+    sreceiver.hookEvent(&launch->shakeEvent);
     srand((int)time(NULL));
 }
 
 NaiveLauncher::~NaiveLauncher(void)
 {
+    nreceiver.unhookEvent(&launch->nodEvent);
+    sreceiver.unhookEvent(&launch->shakeEvent);
+    delete launch;
+    char dir[FILENAME_MAX];
+    Utils::getTime(dir);
+    System::String^ logDir = gcnew System::String(dir);
+    logDir = logDir->Replace(":", "-");
+    logDir = logDir->Replace("/", "-");
+    Directory::CreateDirectory(logDir);
+    System::String^ logFile = logDir + "/log.avi";
+    File::Move("log.avi", logFile);
+    logFile = logDir + "/log.txt";
+    File::Move("log.txt", logFile);
 }
 
 int 
 NaiveLauncher::run()
 {
-    // Create new camera capture
-    cam = new CamCapture();
-    // Init new trackers
-    haar = new HaarDetector();
-    lk = new LKTracker();
-    motionTracker = new MotionTracker();
-    gestureTracker = new GestureTracker();
-
-    CvRect* r = NULL;
-    int runonce = true;
-    Log("starting...");
-    // Tracking loop
-    while(true)
-    {
-        /*try
-        {*/
-        // Get frame frome camera
-        IplImage *tmp = cam->getFrame();
-        if(tmp == NULL)
-            break;
-
-        if(!r)
-        {
-            r = haar->detect(tmp);
-        }
-
-        lk->detect(tmp);
-
-        if(r && runonce)
-        {
-            lk->select(r);
-            runonce = false;
-        }
-        HeadGesture gesture = gestureTracker->track(lk->getPoints(), lk->getNumPoints());
-        if(gesture == nod){
-            printf("NOD DETECTED!\n");
-            Log("Nod");
-            __raise nodEvent.gEvent();
-        }
-        else if(gesture == shake)
-        {
-            printf("SHAKE DETECTED!\n");
-            Log("Shake");
-            __raise shakeEvent.gEvent();
-        }
-
-        cvReleaseImage(&tmp);
-
-        // wait for esc key
-        char c = cvWaitKey(1);
-        if((char) c == 27)
-        {
-            // exit loop
-            break;
-        }
-        cvReleaseImage(&tmp);
-        //}catch (...)
-        //{
-        //	cerr << "Error";
-        //}
-    }
-
-    // cleanup
-    nreceiver.unhookEvent(&nodEvent);
-    sreceiver.unhookEvent(&shakeEvent);
-    if(r)
-        free(r);
-    delete haar;
-    delete cam;
-    delete lk;
-    delete motionTracker;
-    delete gestureTracker;
-    Log("End");
-    return 0;
+    int result = launch->run();
+    return result;
 }
 
 #ifdef _EiC

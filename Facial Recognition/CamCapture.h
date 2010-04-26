@@ -11,11 +11,11 @@ class CamCapture : public Capture
 {
 private:
     static const char* const MAIN_WINDOW;
-    static const char* const VIDEO_FILE_NAME;
     CvVideoWriter* writer;
 	CvCapture* capture;
     double lastCheckTime;
 public:
+    static const char* const VIDEO_FILE_NAME;
 	CamCapture(void);
 	~CamCapture(void);
 	IplImage* getFrame();

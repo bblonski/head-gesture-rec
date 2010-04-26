@@ -12,20 +12,19 @@
 class Launcher
 {
 private:
-    char* log;
+    //char* log;
     Capture* cam;
-    NodReceiver nreceiver;
-    ShakeReceiver sreceiver;
-    GestureEvent nodEvent;
-    GestureEvent shakeEvent;
+    //NodReceiver nreceiver;
+    //ShakeReceiver sreceiver;
+   
     Detector* haar;
     PointTracker* lk;
     MotionTracker* motionTracker;
     GestureTracker* gestureTracker;
-    Utils* utils;
 public:
+    GestureEvent nodEvent;
+    GestureEvent shakeEvent;
     int run(void);
-    Launcher(char*);
     Launcher(void);
     ~Launcher(void);
 };

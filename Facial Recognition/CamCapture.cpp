@@ -10,7 +10,7 @@
 
 /// Name to display in the Main Window
 const char* const CamCapture::MAIN_WINDOW = "Main";
-const char* const CamCapture::VIDEO_FILE_NAME = "test.avi";
+const char* const CamCapture::VIDEO_FILE_NAME = "log.avi";
 
 /// Constructor for CamCapture
 CamCapture::CamCapture(void) : writer(NULL), 
