@@ -50,6 +50,12 @@ NaiveLauncher::~NaiveLauncher(void)
     File::Move("log.txt", logFile);
 }
 
+void
+NaiveLauncher::stop()
+{
+    launch->running = 0;
+}
+
 int 
 NaiveLauncher::run()
 {

@@ -29,7 +29,7 @@ static void Thread2(void* pParams)
     WaitForSingleObject(hMutex, INFINITE); 
     launch->run();
     ReleaseMutex(hMutex);
-    if(questionCount > 20)
+    if(questionCount > 10)
     {
         WaitForSingleObject((HANDLE)hand, INFINITE); 
         MessageBox(NULL, L"Test has finished.\nThank You for your participation.", 
@@ -46,7 +46,7 @@ static void Thread(void* pParams)
     if(rand() % 2)
     {
         Log("Nod expected");
-        while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL|MB_ICONHAND) == IDOK){
+        while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL|MB_ICONEXCLAMATION) == IDOK){
             Log("Nod clicked");
         }
         Log("Nod received");
@@ -61,7 +61,7 @@ static void Thread(void* pParams)
         Log("Shake received");
     }
     launch->stop();
-    timer = (30 + rand() % 5) * 1000;
+    timer = (12 + rand() % 5) * 1000;
     uintptr_t hand = _beginthread(Thread2, 0, &timer);
     _endthread();
 }
@@ -69,6 +69,8 @@ static void Thread(void* pParams)
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
+    MessageBox(NULL, L"Once you click ok, the system will start.  Please answer all dialog boxes with nods or shakes of the head.", 
+    L"System Starting", MB_SYSTEMMODAL|MB_ICONINFORMATION);
     questionCount = 0;
     hMutex = CreateMutex(NULL, false, L"myMutex");
     char* argv[1] = {0};

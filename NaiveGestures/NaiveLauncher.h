@@ -20,6 +20,7 @@ private:
     Launcher* launch;
 public:
     int run(void);
+    void stop();
     NaiveLauncher(void);
     ~NaiveLauncher(void);
 };

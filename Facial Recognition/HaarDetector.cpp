@@ -112,6 +112,10 @@ HaarDetector::detect(const IplImage* frame)
             // Draw the rectangle in the input image
             cvRectangle(image, pt1, pt2, CV_RGB(255, 0, 0), 3, 8, 0);
         }
+        if(faces->total <= 0){
+            free(r);
+            return NULL;
+        }
         //if (faces->total > 0 && nestedCascade)
         //{
         //    CvMat small_img_roi;
