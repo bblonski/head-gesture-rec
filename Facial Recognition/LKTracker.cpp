@@ -7,9 +7,9 @@ LKTracker::LKTracker(void) : flags(0), hasNewPoint(false), numPoints(0), ROI(0),
 initialized(true), image(grey = prevGrey = pyramid = prevPyramid = swapImage = 0),
 status((char*)cvAlloc(MAX_COUNT))
 {
-#if SHOW_WINDOWS
-    cvNamedWindow(LK_TRACKER_WINDOW, CV_WINDOW_AUTOSIZE);
-#endif
+
+    //cvNamedWindow(LK_TRACKER_WINDOW, CV_WINDOW_AUTOSIZE);
+
     cvSetMouseCallback(LK_TRACKER_WINDOW, &LKTracker::mouseCallback, this); 
     points[0] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(CvPoint2D32f));
     points[1] = (CvPoint2D32f*)cvAlloc(MAX_COUNT*sizeof(CvPoint2D32f));
@@ -18,9 +18,9 @@ status((char*)cvAlloc(MAX_COUNT))
 // Deconstructor
 LKTracker::~LKTracker(void)
 {
-#if SHOW_WINDOWS
-    cvDestroyWindow(LK_TRACKER_WINDOW);
-#endif
+
+    //cvDestroyWindow(LK_TRACKER_WINDOW);
+
 }
 
 // Initializes the image
@@ -223,9 +223,9 @@ LKTracker::detect(const IplImage *frame)
     CV_SWAP(prevPyramid, pyramid, swapImage);
     CV_SWAP(points[0], points[1], swapPoints);
     initialized = true;
-#if SHOW_WINDOWS
-    cvShowImage(LK_TRACKER_WINDOW, image);
-#endif
+
+    //cvShowImage(LK_TRACKER_WINDOW, image);
+
 }
 
 CvPoint2D32f**

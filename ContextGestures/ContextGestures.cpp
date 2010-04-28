@@ -23,19 +23,29 @@ static void Thread(void* pParams);
 static void Thread2(void* pParams)
 {
     questionCount++;
+    if(questionCount > 10)
+    {
+        MessageBox(NULL, L"Test has finished.\nThank You for your participation.", 
+            L"You're Done!", MB_SYSTEMMODAL|MB_ICONINFORMATION);
+            char dir[FILENAME_MAX];
+        Utils::getTime(dir);
+        System::String^ logDir = gcnew System::String(dir);
+        logDir = logDir->Replace(":", "-");
+        logDir = logDir->Replace("/", "-");
+        Directory::CreateDirectory(logDir);
+        System::String^ logFile = logDir + "/log.avi";
+        File::Move("log.avi", logFile);
+        logFile = logDir + "/log.txt";
+        File::Move("log.txt", logFile);
+        exit(0);
+    }
     srand((int)time(NULL));
     Sleep(timer);
     uintptr_t hand = _beginthread(Thread, 0, NULL);
     WaitForSingleObject(hMutex, INFINITE); 
     launch->run();
     ReleaseMutex(hMutex);
-    if(questionCount > 10)
-    {
-        WaitForSingleObject((HANDLE)hand, INFINITE); 
-        MessageBox(NULL, L"Test has finished.\nThank You for your participation.", 
-            L"You're Done!", MB_SYSTEMMODAL|MB_ICONINFORMATION);
-        exit(0);
-    }
+
     _endthread();
 }
 
@@ -43,10 +53,11 @@ static void Thread(void* pParams)
 {
     srand((int)time(NULL));
     Sleep(3000);
+    int result;
     if(rand() % 2)
     {
         Log("Nod expected");
-        while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL|MB_ICONEXCLAMATION) == IDOK){
+        while((result = MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL|MB_ICONEXCLAMATION|MB_RETRYCANCEL)) == IDRETRY){
             Log("Nod clicked");
         }
         Log("Nod received");
@@ -54,15 +65,23 @@ static void Thread(void* pParams)
     else
     {
         Log("Shake expected");
-        while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL|MB_ICONEXCLAMATION) == IDOK)
+        while((result = MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL|MB_ICONEXCLAMATION|MB_RETRYCANCEL)) == IDRETRY)
         {
             Log("Shake clicked");
         }
         Log("Shake received");
     }
     launch->stop();
-    timer = (12 + rand() % 5) * 1000;
-    uintptr_t hand = _beginthread(Thread2, 0, &timer);
+    if(result == IDCANCEL)
+    {
+        Log("abort");
+        questionCount = 11;
+        exit (1);
+    }else if(questionCount <= 10)
+    {
+        timer = (12 + rand() % 5) * 1000;
+        uintptr_t hand = _beginthread(Thread2, 0, &timer);
+    }
     _endthread();
 }
 

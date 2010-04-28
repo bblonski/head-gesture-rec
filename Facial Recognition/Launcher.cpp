@@ -49,8 +49,8 @@ Launcher::run()
     // Tracking loop
     while(running)
     {
-        try
-        {
+        /*try
+        {*/
         // Get frame frome camera
         IplImage *tmp = cam->getFrame();
         if(tmp == NULL)
@@ -58,6 +58,7 @@ Launcher::run()
 
         while(r == NULL)
         {
+            tmp = cam->getFrame();
             r = haar->detect(tmp);
         }
 
@@ -91,10 +92,10 @@ Launcher::run()
             break;
         }
         cvReleaseImage(&tmp);
-        }catch (...)
+        /*}catch (...)
         {
             Log("Error");
-        }
+        }*/
     }
 
     // cleanup

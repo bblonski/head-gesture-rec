@@ -99,7 +99,7 @@ CamCapture::getFrame()
     if(!writer)
         writer = cvCreateVideoWriter(VIDEO_FILE_NAME, 
                 CV_FOURCC('I','Y','U','V'), 20, cvGetSize(frame));
-    //cvWriteFrame(writer, frame);
+    cvWriteFrame(writer, frame);
 
 #if SHOW_WINDOWS
     cvShowImage(MAIN_WINDOW, frame);

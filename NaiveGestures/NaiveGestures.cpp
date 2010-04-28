@@ -24,10 +24,11 @@ static void Thread(void* pParams)
     {
         srand((int)time(NULL));
         Sleep(*((int*)pParams));
+        int result;
         if(rand() % 2)
         {
             Log("Nod expected");
-            while(MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL) == IDOK){
+            while((result = MessageBox(NULL, L"Please nod your head", L"Nod", MB_SYSTEMMODAL|MB_ICONEXCLAMATION|MB_RETRYCANCEL)) == IDRETRY){
                 Log("Nod clicked");
             }
             Log("Nod received");
@@ -35,14 +36,22 @@ static void Thread(void* pParams)
         else
         {
             Log("Shake expected");
-            while(MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL) == IDOK)
+            while((result = MessageBox(NULL, L"Please shake your head", L"Shake", MB_SYSTEMMODAL|MB_ICONEXCLAMATION|MB_RETRYCANCEL)) == IDRETRY)
             {
                 Log("Shake clicked");
             }
             Log("Shake received");
         }
-        timer = (15 + rand() % 5) * 1000;
-        uintptr_t hand = _beginthread(Thread, 0, &timer);
+        if(result == IDCANCEL)
+        {
+            Log("abort");
+            launch->stop();
+            questionCount = 11;
+            _endthread();
+        }else{
+            timer = (15 + rand() % 5) * 1000;
+            uintptr_t hand = _beginthread(Thread, 0, &timer);
+        }
     }else{
         launch->stop();
     }
