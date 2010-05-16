@@ -61,7 +61,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="cv200d.lib cxcore200d.lib highgui200d.lib ml200d.lib"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\OpenCV2.0\lib\Debug&quot;"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -203,10 +203,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\AssemblyInfo.cpp"
-				>
-			</File>
 			<File
 				RelativePath=".\NaiveGestures.cpp"
 				>

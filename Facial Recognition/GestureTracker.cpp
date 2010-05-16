@@ -46,7 +46,16 @@ GestureTracker::track(CvPoint2D32f** points, int numPoints)
             state = none;
         break;
     case CENTER:
-        gestureCount++;
+        if(state == up2)
+            state=nod;
+        else if(state == down2)
+            state=nod;
+        else if(state == right2)
+            state=shake;
+        else if(state == left2)
+            state=shake;
+        else
+            gestureCount++;
         break;
     case UP:
         if(state == none)
@@ -56,7 +65,7 @@ GestureTracker::track(CvPoint2D32f** points, int numPoints)
         else if(state == down2)
             state = nod;
         else if(state == up1 || state == up2)
-            gestureCount++;
+            gestureCount = 0;
         else
             state = none;
         break;
@@ -67,8 +76,8 @@ GestureTracker::track(CvPoint2D32f** points, int numPoints)
             state = down2;
         else if(state == up2)
             state = nod;
-        else if(state == down2 || state == down2)
-            gestureCount++;
+        else if(state == down1 || state == down2)
+            gestureCount = 0;
         else
             state = none;
         break;

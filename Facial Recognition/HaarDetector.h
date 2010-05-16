@@ -19,7 +19,6 @@ private:
 	CvMemStorage* storage;
 	CvHaarClassifierCascade* cascade;
 	CvHaarClassifierCascade* nestedCascade;
-	Utils* util;
 	vector<CvPoint> points;
 
 	void init();
